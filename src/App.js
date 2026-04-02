@@ -5,6 +5,7 @@ import Peliculas from './Screens/Peliculas/Peliculas';
 import Series from './Screens/Series/Series';
 import Favoritos from './Screens/Favoritos/Favoritos';
 import LogIn from './Screens/LogIn/LogIn';
+import SignUp from './Screens/SignUp/SignUp';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/Series" exact = {true} component={Series}/>
           <Route path="/Favoritos" exact = {true} component={Favoritos}/>
           <Route path="/LogIn" exact = {true} component={LogIn}/>
+          <Route path="/SignUp" exact = {true} component={SignUp}/>
         </Switch>
       </div>
     </BrowserRouter>
