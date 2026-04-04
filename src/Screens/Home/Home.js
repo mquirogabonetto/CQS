@@ -6,7 +6,7 @@ import './Home.css'
 
 function Home() {
     return (
-        <div>
+        <div className="home-page">
             <Header />
             <div className="container"><SearchForm /></div>
             <Footer />

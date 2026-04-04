@@ -4,12 +4,14 @@ header {
     justify-content: center;
     align-items: center;
     height: 150px;
+    background-color: #484441;
 }
 
 header nav ul {
     list-style: none;
     display: flex;
     text-decoration: none;
+    color: #eeeee2;
 }
 
 header nav ul a {
@@ -17,4 +19,5 @@ header nav ul a {
     margin: 20px;
     font-family: "Open Sans", sans-serif;  
     font-size: 27px;
+    color: #eeeee2;
 }
