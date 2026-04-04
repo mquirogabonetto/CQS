@@ -1,0 +1,7 @@
+.cardContainer {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: #5c99a7;
+}
