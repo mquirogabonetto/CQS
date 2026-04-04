@@ -18,17 +18,17 @@ class SignUp extends Component {
 
         let email = this.state.email;
         let password = this.state.password;
-        
+
         if (password.length < 6) {
             this.setState({ errorPassword: "La contraseña debe tener mínimo 6 caracteres" });
             return;
         }
 
-        let usuarios = localStorage.getItem ("usuarios");
-        if (usuarios===null){
+        let usuarios = localStorage.getItem("usuarios");
+        if (usuarios === null) {
             usuarios = []
         } else {
-            usuarios = JSON.parse (usuarios);
+            usuarios = JSON.parse(usuarios);
         }
 
         let emailsExistentes = usuarios.filter((usuario) => usuario.email === email);
@@ -39,7 +39,7 @@ class SignUp extends Component {
 
         let nuevoUsuario = { email: email, password: password };
         usuarios.push(nuevoUsuario);
-        let usuariosJSON = JSON.stringify (usuarios);
+        let usuariosJSON = JSON.stringify(usuarios);
         localStorage.setItem("usuarios", usuariosJSON);
 
         alert("¡Cuenta creada con éxito!");
@@ -60,17 +60,17 @@ class SignUp extends Component {
                     <form onSubmit={(event) => this.evitarSubmit(event)}>
                         <div className="form-group">
                             <label>Email</label>
-                            <input type="email" className="form-control" id="email" placeholder="Ingresá tu email" onChange={(event) => this.controlarCambios(event)} value={this.state.email} />
+                            <input type="email" className="form-control" id="email" placeholder="Enter your email" onChange={(event) => this.controlarCambios(event)} value={this.state.email} />
                             {this.state.errorEmail !== "" ? (<p className="text-danger">{this.state.errorEmail}</p>) : ("")}
                         </div>
                         <div className="form-group">
-                            <label>Contraseña</label>
-                            <input type="password" className="form-control" id="password" placeholder="Ingresá tu contraseña" onChange={(event) => this.controlarCambios(event)} value={this.state.password}/>
+                            <label>Password</label>
+                            <input type="password" className="form-control" id="password" placeholder="Enter your password" onChange={(event) => this.controlarCambios(event)} value={this.state.password} />
                             {this.state.errorPassword !== "" ? (<p className="text-danger">{this.state.errorPassword}</p>) : ("")}
                         </div>
-                        <button type="submit" className="btn btn-primary btn-block">Registrarse</button>
+                        <button type="submit" className="btn btn-primary btn-block">Register</button>
                     </form>
-                    <p className="mt-3 text-center">¿Ya tenés cuenta? <a href="login.html">Iniciar sesión</a></p>
+                    <p className="mt-3 text-center">¿Already have an account? <a href="login.html">Log In</a></p>
                 </div>
             </div>
         );

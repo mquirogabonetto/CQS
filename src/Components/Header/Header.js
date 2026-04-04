@@ -11,24 +11,24 @@ function Header () {
             </div>
 
             <nav>
-                <ul class="Navbar">
-                    <li class="nav-item">
+                <ul className="Navbar">
+                    <li className="nav-item">
                         <Link className="nav-link" to="/">Home</Link>
                     </li>
-                    <li class="nav-item">
+                    <li className="nav-item">
                         <Link className="nav-link" to="/Peliculas">Movies</Link>
                     </li>
-                    <li class="nav-item">
-                        <Link class="nav-link" to="/Series">Shows</Link>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/Series">Shows</Link>
                     </li>
-                    <li class="nav-item">
-                        <Link class="nav-link" to="/Favoritos">Favorites</Link>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/Favoritos">Favorites</Link>
                     </li>
-                    <li class="nav-item ml-auto">
-                        <Link class="nav-link" to="/SignUp">Sign Up</Link>
+                    <li className="nav-item ml-auto">
+                        <Link className="nav-link" to="/SignUp">Sign Up</Link>
                     </li>
-                    <li class="nav-item">
-                        <Link class="nav-link" to="LogIn">Log In</Link>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="LogIn">Log In</Link>
                     </li>
                 </ul>
             </nav>

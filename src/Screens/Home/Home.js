@@ -3,11 +3,11 @@ import Footer from "../../Components/Footer/Footer"
 import Header from "../../Components/Header/Header"
 import SearchForm from "../../Components/SearchForm/SearchForm";
 
-function Home () {
+function Home() {
     return (
-       <div>
+        <div>
             <Header />
-            <div className="container"><SearchForm/></div>
+            <div className="container"><SearchForm /></div>
             <Footer />
         </div>
     )

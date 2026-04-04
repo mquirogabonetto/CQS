@@ -17,19 +17,22 @@ class SearchResults extends Component {
 
         fetch("https://api.themoviedb.org/3/search/" + tipo + "?api_key=b604e547cd3fb7ac5cc35be72e2e0516&query=" + busqueda)
             .then((response) => response.json())
-            .then((data) => { this.setState({ resultados: data.results, cargando: false }); 
-        })
-            .catch((error) => { console.log(error); 
-        });
+            .then((data) => {
+                this.setState({ resultados: data.results, cargando: false });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
+
     render() {
         let tipo = this.props.match.params.tipo;
         return (
             <div>
                 <Header />
                 <div className="container">
-                    <h2 className={"alert " + (tipo === "movie" ? "alert-primary" : "alert-warning")}> {tipo === "movie" ? "Películas" : "Series"}: {this.props.match.params.busqueda}</h2>
-                    {this.state.cargando ? (<p>Cargando...</p>) : (
+                    <h2 className={"alert " + (tipo === "movie" ? "alert-primary" : "alert-warning")}> {tipo === "movie" ? "Movies" : "Shows"}: {this.props.match.params.busqueda}</h2>
+                    {this.state.cargando ? (<p>Loading...</p>) : (
                         <section className="row cards">
                             {this.state.resultados.map((item) => (
                                 <article key={item.id} className={"single-card-" + (tipo === "movie" ? "movie" : "tv")}>
@@ -37,10 +40,12 @@ class SearchResults extends Component {
                                     <div className="cardBody">
                                         <h5 className="card-title"> {tipo === "movie" ? item.title : item.name}</h5>
                                         <p className="card-text">{item.overview}</p>
-                                        <Link to={"/" + (tipo === "movie" ? "Pelicula" : "Serie") + "/" + item.id} className={"btn " + (tipo === "movie" ? "btn-primary" : "btn-warning")}> Ver más </Link>
+                                        <Link to={"/Detalle/" + tipo + "/" + item.id} className={"btn " + (tipo === "movie" ? "btn-primary" : "btn-warning")}> See more </Link>
                                     </div>
-                                </article>))}
-                        </section>)}
+                                </article>
+                            ))}
+                        </section>
+                    )}
                 </div>
                 <Footer />
             </div>

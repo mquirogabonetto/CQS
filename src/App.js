@@ -7,19 +7,21 @@ import Favoritos from './Screens/Favoritos/Favoritos';
 import LogIn from './Screens/LogIn/LogIn';
 import SignUp from './Screens/SignUp/SignUp';
 import SearchResults from './Screens/SearchResults/SearchResults';
+import Detalle from './Screens/Detalle/Detalle';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <Switch>
-          <Route path="/" exact = {true} component={Home}/>
-          <Route path="/Peliculas" exact = {true} component={Peliculas}/>
-          <Route path="/Series" exact = {true} component={Series}/>
-          <Route path="/Favoritos" exact = {true} component={Favoritos}/>
-          <Route path="/LogIn" exact = {true} component={LogIn}/>
-          <Route path="/SignUp" exact = {true} component={SignUp}/>
-          <Route path="/SearchResults/:tipo/:busqueda" exact = {true} component={SearchResults}/>
+          <Route path="/" exact={true} component={Home} />
+          <Route path="/Peliculas" exact={true} component={Peliculas} />
+          <Route path="/Series" exact={true} component={Series} />
+          <Route path="/Favoritos" exact={true} component={Favoritos} />
+          <Route path="/LogIn" exact={true} component={LogIn} />
+          <Route path="/SignUp" exact={true} component={SignUp} />
+          <Route path="/SearchResults/:tipo/:busqueda" component={SearchResults} />
+          <Route path="/Detalle/:tipo/:id" component={Detalle} />
         </Switch>
       </div>
     </BrowserRouter>
