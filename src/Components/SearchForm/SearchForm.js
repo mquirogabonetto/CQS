@@ -7,6 +7,7 @@ class SearchForm extends Component {
         this.state = {
             searchData: "",
             tipo: "movie",
+            errorBusqueda: "",
         };
     }
     controlarBusqueda(event) {
@@ -20,9 +21,10 @@ class SearchForm extends Component {
         let busqueda = this.state.searchData;
         let tipo = this.state.tipo;
         if (busqueda === "") {
-            alert("Please enter something to search");
+            this.setState({ errorBusqueda: "Please enter something to search" });
             return;
         }
+        this.setState({ errorBusqueda: "" });
         this.props.history.push("/SearchResults/" + tipo + "/" + busqueda);
     }
     render() {
@@ -33,6 +35,7 @@ class SearchForm extends Component {
                     <option value="tv">Shows</option>
                 </select>
                 <input type="text" name="searchData" placeholder="Search..." value={this.state.searchData} onChange={(event) => this.controlarBusqueda(event)} />
+                {this.state.errorBusqueda !== "" ? (<p className="text-danger">{this.state.errorBusqueda}</p>) : ("")}
                 <button type="submit" className="btn btn-success btn-sm">Search</button>
             </form>
         );
