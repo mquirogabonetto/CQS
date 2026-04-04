@@ -13,7 +13,7 @@ class MovieSection extends Component {
     componentDidMount() {
         const apiKey = "b604e547cd3fb7ac5cc35be72e2e0516";
         const type = this.props.type; 
-        const url = `https://api.themoviedb.org/3/${type}/popular?api_key=${apiKey}&language=es-ES&page=1`;
+        const url = `https://api.themoviedb.org/3/${type}/popular?api_key=${apiKey}`;
     fetch(url)
         .then(response => response.json())
         .then(data => {
