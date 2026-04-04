@@ -19,8 +19,7 @@ function App() {
           <Route path="/Favoritos" exact = {true} component={Favoritos}/>
           <Route path="/LogIn" exact = {true} component={LogIn}/>
           <Route path="/SignUp" exact = {true} component={SignUp}/>
-          <Route path="/SearchResults" exact = {true} component={SearchResults}/>
-
+          <Route path="/SearchResults/:tipo/:busqueda" exact = {true} component={SearchResults}/>
         </Switch>
       </div>
     </BrowserRouter>
