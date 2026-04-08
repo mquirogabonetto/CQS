@@ -1,23 +1,49 @@
-header {
+.header {
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    height: 150px;
-    background-color: #484441;
+    margin-top: 20px;
 }
 
-header nav ul {
-    list-style: none;
+.header-container {
+    position: relative;
+    z-index: 10;
+    width: 90%;
     display: flex;
-    text-decoration: none;
-    color: #eeeee2;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 25px;
+    border-radius: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    color: white;
 }
 
-header nav ul a {
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img{
+    width: 200px;
+}
+
+
+/* Navegación */
+.Navbar {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-item{
+    list-style: none;
+    font-weight: 500;
+}
+
+.nav-link {
     text-decoration: none;
-    margin: 20px;
-    font-family: "Open Sans", sans-serif;  
-    font-size: 27px;
-    color: #eeeee2;
+    color: white;
+    font-size: 17px ;
 }

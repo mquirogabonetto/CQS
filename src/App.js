@@ -8,6 +8,7 @@ import LogIn from './Screens/LogIn/LogIn';
 import SignUp from './Screens/SignUp/SignUp';
 import SearchResults from './Screens/SearchResults/SearchResults';
 import Detalle from './Screens/Detalle/Detalle';
+import NotFound from "./Screens/NotFound/NotFound";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/SignUp" exact={true} component={SignUp} />
           <Route path="/SearchResults/:tipo/:busqueda" component={SearchResults} />
           <Route path="/Detalle/:tipo/:id" component={Detalle} />
+          <Route component={NotFound} />
         </Switch>
       </div>
     </BrowserRouter>

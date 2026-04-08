@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import "./MovieSection.css";
 import MovieCard from "../MovieCard/MovieCard";
 
-class MovieSection extends Component {
+class HomeSection extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,7 +30,7 @@ class MovieSection extends Component {
                     {this.state.datos.length === 0 ? (
                         <h3>Loading...</h3>
                     ) : (
-                        this.state.datos.map((movie) => (
+                        this.state.datos.slice(0, 8).map((movie) => (
                             <MovieCard
                                 key={movie.id}           
                                 id={movie.id}
@@ -48,4 +47,4 @@ class MovieSection extends Component {
     }
 }
 
-export default MovieSection;
+export default HomeSection;
