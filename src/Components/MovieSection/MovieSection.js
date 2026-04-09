@@ -6,7 +6,7 @@ class MovieSection extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            datos: [],  
+            datos: [],
         };
     }
 
@@ -14,13 +14,13 @@ class MovieSection extends Component {
         const apiKey = "b604e547cd3fb7ac5cc35be72e2e0516";
         let type = this.props.type;
         const url = `https://api.themoviedb.org/3/${type}/popular?api_key=${apiKey}`;
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            console.log("API response:", data);
-            this.setState({ datos: data.results || [] });
-        })
-        .catch(error => console.log("Error:", error));
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                console.log("API response:", data);
+                this.setState({ datos: data.results || [] });
+            })
+            .catch(error => console.log("Error:", error));
 
     }
 
@@ -33,8 +33,9 @@ class MovieSection extends Component {
                     ) : (
                         this.state.datos.map((movie) => (
                             <MovieCard
-                                key={movie.id}           
+                                key={movie.id}
                                 id={movie.id}
+                                tipo={this.props.type}
                                 title={movie.title || movie.name}
                                 poster={movie.poster_path}
                                 rating={movie.vote_average}

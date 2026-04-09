@@ -2,9 +2,9 @@ import React from "react";
 import Footer from "../../Components/Footer/Footer"
 import Header from "../../Components/Header/Header"
 import SearchForm from "../../Components/SearchForm/SearchForm";
-import './Home.css'
-import MovieSection from "../../Components/MovieSection/MovieSection";
 import HomeSection from "../../Components/HomeSection/HomeSection";
+import './Home.css'
+import "../../Components/SearchForm/SearchForm.css";
 
 function Home() {
     return (
@@ -14,10 +14,10 @@ function Home() {
             </video>
             <Header />
             <div className="container"><SearchForm /></div>
-            <h2>Trending</h2>
-            <HomeSection type="tv"/>
-            <h2>Popular</h2>
+            <h2>Popular Movies</h2>
             <HomeSection type="movie"/>
+            <h2>Popular Shows</h2>
+            <HomeSection type="tv"/>
             <Footer />
         </div>
     )

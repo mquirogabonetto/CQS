@@ -1,6 +1,10 @@
 .cardContainer {
-    margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    gap: 15px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    margin: 20px 52px 40px 52px;
 }

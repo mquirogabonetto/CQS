@@ -1,37 +1,81 @@
-
 .character-card {
-    width: 24%;
     margin-bottom: 20px;
-    background-color: #484441;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    border-radius: 10px;
-    border: 1px solid #d6d4c0;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    width: 23%;
+
+}
+
+.character-card img {
+    width: 100%;
+    object-fit: cover;
 }
 
 .character-card h4 {
-    font-size: 25px;
-    color: #eeeee2;
-    padding: 12px 12px 6px;
+    font-size: 18px;
+    color: white;
+
     text-align: center;
-}
-.character-card img {
-    width: 100%;
-    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
 }
 
 .character-card button {
-    margin: 8px 12px 12px;
-    padding: 7px 16px;
-    background: #5c99a7;
-    color: #ffffff;
+    margin: 4px 6px 10px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 20px;
     font-size: 13px;
+    cursor: pointer;
+}
+
+.character-card button:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.character-card .btn-favorites {
+    width: 80%;
+    padding: 7px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    margin-bottom: 12px;
+}
+
+.character-card .btn-favorites:hover {
+    background: rgba(255, 255, 255, 0.4);
 }
 
 .character-card p {
     color: #eeeee2;
+    font-size: 13px;
+    padding: 8px 12px;
+    text-align: center;
+}
+
+.character-card .buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding: 1%;
+    justify-content: center;
+    align-items: center;
+}
+
+.character-card .buttons button {
+    width: auto;
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.15);
 }

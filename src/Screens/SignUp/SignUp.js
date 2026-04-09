@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import Header from "../../Components/Header/Header";
+import Footer from "../../Components/Footer/Footer";
+import './SignUp.css';
 
 class SignUp extends Component {
     constructor(props) {
@@ -56,6 +59,10 @@ class SignUp extends Component {
     render() {
         return (
             <div className="row justify-content-center">
+                <video autoPlay muted loop className="video-bg">
+                    <source src="/videos/backgroundvideo.mp4" type="video/mp4" />
+                </video>
+                <Header />
                 <div className="col-md-6">
                     <form onSubmit={(event) => this.evitarSubmit(event)}>
                         <div className="form-group">
@@ -72,6 +79,7 @@ class SignUp extends Component {
                     </form>
                     <p className="mt-3 text-center">¿Already have an account? <a href="login.html">Log In</a></p>
                 </div>
+                <Footer />
             </div>
         );
     }

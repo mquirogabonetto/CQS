@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
+import './Detalle.css';
 
 class Detalle extends Component {
     constructor(props) {
@@ -27,20 +28,26 @@ class Detalle extends Component {
     render() {
         let tipo = this.props.match.params.tipo;
         return (
-            <div>
+            <div className="detalle-page">
+                <video autoPlay muted loop className="video-bg">
+                    <source src="/videos/backgroundvideo.mp4" type="video/mp4" />
+                </video>
                 <Header />
                 <div className="container">
                     <h2 className={"alert " + (tipo === "movie" ? "alert-primary" : "alert-warning")}>{tipo === "movie" ? "Movie" : "Show"}</h2>
                     {this.state.cargando ? (<p>Loading...</p>) : (
                         <section className="row">
-                            <img src={"https://image.tmdb.org/t/p/w342/" + this.state.detalle.poster_path} className="col-md-6" alt={tipo === "movie" ? this.state.detalle.title : this.state.detalle.name} />
-                            <div className="col-md-6">
+                            <div className="col-md-6 detalle-poster">
+                                <img src={"https://image.tmdb.org/t/p/w342/" + this.state.detalle.poster_path} className="col-md-6" alt={tipo === "movie" ? this.state.detalle.title : this.state.detalle.name} />
+                                <button className="btn-favorites">Add to favorites ⭐</button>
+                            </div>
+                            <div className="col-md-6 detalle-info">
                                 <h3>{tipo === "movie" ? this.state.detalle.title : this.state.detalle.name}</h3>
                                 <p><strong>Synopsis:</strong> {this.state.detalle.overview}</p>
                                 <p><strong>Rating:</strong> {this.state.detalle.vote_average}</p>
                                 <p><strong>Release date:</strong> {tipo === "movie" ? this.state.detalle.release_date : this.state.detalle.first_air_date}</p>
                                 {tipo === "movie" ? (<p><strong>Runtime:</strong> {this.state.detalle.runtime} min</p>) : ("")}
-                                <p><strong>Genre:</strong> {this.state.detalle.genres.length > 0 ? this.state.detalle.genres[0].name : "Unknown"}</p>
+                                <p><strong>Genre:</strong> {this.state.detalle.genres && this.state.detalle.genres.length > 0 ? this.state.detalle.genres[0].name : "Unknown"}</p>
                             </div>
                         </section>
                     )}
