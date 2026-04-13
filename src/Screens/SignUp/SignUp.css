@@ -53,7 +53,8 @@
 .text-danger {
   color: white;
   font-size: 14px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  margin-top: 0px;
 }
 .register-box input::placeholder {
   color: white;

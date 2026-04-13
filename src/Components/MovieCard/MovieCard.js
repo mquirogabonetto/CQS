@@ -31,7 +31,7 @@ class MovieCard extends Component {
           </Link>
         </div>
         {this.state.mostrarInfo && <p>{this.props.overview}</p>}
-        <button className="btn-favorites">Add to favorites</button>
+        <button className="btn-favorites">Add to favorites ⭐</button>
       </div>
     )
   }
