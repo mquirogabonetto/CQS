@@ -7,4 +7,55 @@
   object-fit: cover;
   z-index: -1;
 }
-
+.form-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+}
+.register-box {
+  width: 400px;
+  padding: 50px;
+  margin-top: 35px;
+  margin-bottom: 80px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  color: white;
+}
+.register-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.register-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 20px; 
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  font-size: 15px;
+}
+.register-box button {
+  width: 90%;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  background-color: #2a7f6f;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+}
+.register-box button:hover {
+  background-color: #24695c;
+}
+.text-danger {
+  color: white;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.register-box input::placeholder {
+  color: white;
+  opacity: 0.7;
+}
