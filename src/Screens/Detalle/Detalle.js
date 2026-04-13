@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import './Detalle.css';
+import Loader from "../Loader/Loader";
 
 class Detalle extends Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class Detalle extends Component {
             })
             .catch((error) => {
                 console.log(error);
+                this.setState({ cargando: false });
             });
     }
 
@@ -35,7 +37,7 @@ class Detalle extends Component {
                 <Header />
                 <div className="container">
                     <h2 className={"alert " + (tipo === "movie" ? "alert-primary" : "alert-warning")}>{tipo === "movie" ? "Movie" : "Show"}</h2>
-                    {this.state.cargando ? (<p>Loading...</p>) : (
+                    {this.state.cargando ? (<Loader />) : (
                         <section className="row">
                             <div className="col-md-6 detalle-poster">
                                 <img src={"https://image.tmdb.org/t/p/w342/" + this.state.detalle.poster_path} className="col-md-6" alt={tipo === "movie" ? this.state.detalle.title : this.state.detalle.name} />

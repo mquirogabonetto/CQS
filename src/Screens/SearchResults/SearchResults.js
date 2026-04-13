@@ -4,6 +4,7 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import './SearchResults.css';
 import MovieCard from "../../Components/MovieCard/MovieCard";
+import Loader from "../Loader/Loader";
 
 class SearchResults extends Component {
     constructor(props) {
@@ -20,10 +21,11 @@ class SearchResults extends Component {
         fetch("https://api.themoviedb.org/3/search/" + tipo + "?api_key=b604e547cd3fb7ac5cc35be72e2e0516&query=" + busqueda)
             .then((response) => response.json())
             .then((data) => {
-                this.setState({ resultados: data.results, cargando: false });
+                this.setState({ resultados: data.results || [], cargando: false });
             })
             .catch((error) => {
                 console.log(error);
+                this.setState({ cargando: false });
             });
     }
 
@@ -37,7 +39,7 @@ class SearchResults extends Component {
                 <Header />
                 <div className="container">
                     <h2 className="search-results-title"> {tipo === "movie" ? "Movies" : "Shows"}: {this.props.match.params.busqueda}</h2>
-                    {this.state.cargando ? (<p>Loading...</p>) : (
+                    {this.state.cargando ? (<Loader />) : (
                         <section className="cardContainer">
                             {this.state.resultados.map((item) => (
                                 <MovieCard

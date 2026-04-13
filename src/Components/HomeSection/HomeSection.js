@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import MovieCard from "../MovieCard/MovieCard";
+import Loader from "../../Screens/Loader/Loader";
 
 class HomeSection extends Component {
     constructor(props) {
         super(props);
         this.state = {
             datos: [],
+            loading: true
         };
     }
 
@@ -17,9 +19,15 @@ class HomeSection extends Component {
             .then(response => response.json())
             .then(data => {
                 console.log("API response:", data);
-                this.setState({ datos: data.results || [] });
+                this.setState({ 
+                    datos: data.results || [],
+                    loading: false
+                });
             })
-            .catch(error => console.log("Error:", error));
+            .catch(error => {
+                console.log("Error:", error);
+                this.setState({ loading: false });
+});
 
     }
 
@@ -27,8 +35,8 @@ class HomeSection extends Component {
         return (
             <div>
                 <section className="cardContainer">
-                    {this.state.datos.length === 0 ? (
-                        <h3>Loading...</h3>
+                    {this.state.loading ? (
+                        <Loader />
                     ) : (
                         this.state.datos.slice(0, 8).map((movie) => (
                             <MovieCard
