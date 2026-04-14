@@ -6,7 +6,19 @@ class MovieCard extends Component {
   constructor() {
     super();
     this.state = {
-      mostrarInfo: false
+      mostrarInfo: false,
+      esFavorito: false
+    }
+  }
+
+  componentDidMount() {
+    let tipo = this.props.tipo;
+    let storageKey = tipo === "movie" ? "favoritosMovies" : "favoritosSeries";
+    let favoritos = JSON.parse(localStorage.getItem(storageKey)) || [];
+    let existe = favoritos.find(f => f.id === this.props.id);
+
+    if (existe) {
+      this.setState({ esFavorito: true });
     }
   }
 
@@ -16,11 +28,32 @@ class MovieCard extends Component {
     })
   }
 
+  manejarFavorito() {
+    let tipo = this.props.tipo;
+    let storageKey = tipo === "movie" ? "favoritosMovies" : "favoritosSeries";
+    let favoritos = JSON.parse(localStorage.getItem(storageKey)) || [];
+    let existe = favoritos.find (f => f.id === this.props.id);
+
+    if (existe) {
+      favoritos = favoritos.filter(f => f.id !== this.props.id);
+      this.setState({esFavorito: false});
+    } else {
+      favoritos.push({
+        id: this.props.id,
+        title: this.props.title,
+        poster: this.props.poster,
+        overview: this.props.overview
+      });
+      this.setState({esFavorito: true});
+      localStorage.setItem(storageKey, JSON.stringify(favoritos));
+    }
+  }
+
   render() {
     console.log("tipo:", this.props.tipo, "id:", this.props.id)
     return (
       <div className="character-card">
-        <img src={`https://image.tmdb.org/t/p/w500${this.props.poster}`} alt={this.props.nombre} />
+        <img src={`https://image.tmdb.org/t/p/w500${this.props.poster}`} alt={this.props.title} />
         <h4>{this.props.title}</h4>
         <div className="buttons">
           <button onClick={() => this.mostrar()}>
@@ -31,7 +64,9 @@ class MovieCard extends Component {
           </Link>
         </div>
         {this.state.mostrarInfo && <p>{this.props.overview}</p>}
-        <button className="btn-favorites">Add to favorites ⭐</button>
+        <button 
+        className="btn-favorites"
+        onClick={()=> this.manejarFavorito()}>Add to favorites ⭐</button>
       </div>
     )
   }
