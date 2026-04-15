@@ -1,6 +1,7 @@
 import React from "react";
 import Footer from "../../Components/Footer/Footer"
 import Header from "../../Components/Header/Header"
+import LogInForm from "../../Components/LogInForm/LogInForm";
 import './LogIn.css';
 function LogIn () {
     return (
@@ -9,6 +10,7 @@ function LogIn () {
                 <source src="/videos/backgroundvideo.mp4" type="video/mp4" />
             </video>
             <Header />
+            <LogInForm/>
             <Footer />
         </div>
     )
