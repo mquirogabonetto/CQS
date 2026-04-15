@@ -37,6 +37,11 @@ class MovieCard extends Component {
     if (existe) {
       favoritos = favoritos.filter(f => f.id !== this.props.id);
       this.setState({esFavorito: false});
+      
+      if (this.props.onRemove) {
+        this.props.onRemove(this.props.id, tipo);
+      }
+
     } else {
       favoritos.push({
         id: this.props.id,
@@ -47,6 +52,7 @@ class MovieCard extends Component {
       this.setState({esFavorito: true});
       localStorage.setItem(storageKey, JSON.stringify(favoritos));
     }
+    localStorage.setItem(storageKey, JSON.stringify(favoritos));
   }
 
   render() {
@@ -64,9 +70,11 @@ class MovieCard extends Component {
           </Link>
         </div>
         {this.state.mostrarInfo && <p>{this.props.overview}</p>}
-        <button 
-        className="btn-favorites"
-        onClick={()=> this.manejarFavorito()}>Add to favorites ⭐</button>
+        {this.state.esFavorito ? (
+          <button className="btn-favorites" onClick={() => this.manejarFavorito()}>Remove ❌</button>
+        ) : (
+          <button className="btn-favorites" onClick={() => this.manejarFavorito()}>Add to favorites ⭐</button>
+          )}
       </div>
     )
   }

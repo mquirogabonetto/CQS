@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import MovieCard from "../../Components/MovieCard/MovieCard";
+import "./Favoritos.css"
 
 class Favoritos extends Component {
     constructor(props) {
@@ -9,7 +10,7 @@ class Favoritos extends Component {
         this.state = {
             movies: [],
             series: [],
-            logueado: true
+            logueado: false
         };
     }
 
@@ -47,12 +48,12 @@ class Favoritos extends Component {
 
                 <div className="container">
 
-                    {/* ❌ NO LOGUEADO */}
+                    {/* NO LOGUEADO */}
                     {!this.state.logueado ? (
-                        <h2>No tenés favoritos. Iniciá sesión.</h2>
+                        <h2 className="nofavoritos">No tenés favoritos. Iniciá sesión.</h2>
                     ) : (
                         <>
-                            {/* 🎬 MOVIES */}
+                            {/* MOVIES */}
                             <h2>Favorite Movies</h2>
 
                             {this.state.movies.length === 0 ? (
@@ -64,12 +65,13 @@ class Favoritos extends Component {
                                             key={item.id}
                                             {...item}
                                             tipo="movie"
+                                            onRemove={(id, tipo) => this.eliminarFavorito(id, tipo)}
                                         />
                                     ))}
                                 </div>
                             )}
 
-                            {/* 📺 SERIES */}
+                            {/* SERIES */}
                             <h2>Favorite Shows</h2>
 
                             {this.state.series.length === 0 ? (
@@ -81,6 +83,7 @@ class Favoritos extends Component {
                                             key={item.id}
                                             {...item}
                                             tipo="tv"
+                                            onRemove={(id, tipo) => this.eliminarFavorito(id, tipo)}
                                         />
                                     ))}
                                 </div>

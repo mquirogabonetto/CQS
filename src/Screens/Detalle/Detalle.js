@@ -10,6 +10,7 @@ class Detalle extends Component {
         this.state = {
             detalle: null,
             cargando: true,
+            esFavorito: false
         };
     }
     componentDidMount() {
@@ -19,13 +20,46 @@ class Detalle extends Component {
         fetch("https://api.themoviedb.org/3/" + tipo + "/" + id + "?api_key=b604e547cd3fb7ac5cc35be72e2e0516")
             .then((response) => response.json())
             .then((data) => {
-                this.setState({ detalle: data, cargando: false });
+                let tipo = this.props.match.params.tipo;
+                let storageKey = tipo === "movie" ? "favoritosMovies" : "favoritosSeries";
+
+                let favoritos = JSON.parse(localStorage.getItem(storageKey)) || [];
+                let existe = favoritos.find(f => f.id === data.id);
+
+                this.setState({ detalle: data, cargando: false, esFavorito: existe ? true : false });
             })
             .catch((error) => {
                 console.log(error);
                 this.setState({ cargando: false });
             });
     }
+
+      manejarFavorito() {
+    let tipo = this.props.tipo;
+    let storageKey = tipo === "movie" ? "favoritosMovies" : "favoritosSeries";
+    let favoritos = JSON.parse(localStorage.getItem(storageKey)) || [];
+    let existe = favoritos.find (f => f.id === this.props.id);
+
+    if (existe) {
+      favoritos = favoritos.filter(f => f.id !== this.props.id);
+      this.setState({esFavorito: false});
+      
+      if (this.props.onRemove) {
+        this.props.onRemove(this.props.id, tipo);
+      }
+
+    } else {
+      favoritos.push({
+        id: this.props.id,
+        title: this.props.title,
+        poster: this.props.poster,
+        overview: this.props.overview
+      });
+      this.setState({esFavorito: true});
+      localStorage.setItem(storageKey, JSON.stringify(favoritos));
+    }
+    localStorage.setItem(storageKey, JSON.stringify(favoritos));
+  }
 
     render() {
         let tipo = this.props.match.params.tipo;
@@ -41,7 +75,10 @@ class Detalle extends Component {
                         <section className="row">
                             <div className="col-md-6 detalle-poster">
                                 <img src={"https://image.tmdb.org/t/p/w342/" + this.state.detalle.poster_path} className="col-md-6" alt={tipo === "movie" ? this.state.detalle.title : this.state.detalle.name} />
-                                <button className="btn-favorites">Add to favorites ⭐</button>
+                                {this.state.esFavorito ? (
+                                    <button className="btn-favorites" onClick={() => this.manejarFavorito()}>Remove ❌</button>
+                                ) : (
+                                    <button className="btn-favorites" onClick={() => this.manejarFavorito()}>Add to favorites ⭐</button>)}
                             </div>
                             <div className="col-md-6 detalle-info">
                                 <h3>{tipo === "movie" ? this.state.detalle.title : this.state.detalle.name}</h3>

@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import "../LogInForm/LogInForm.css";
 import Cookies from 'universal-cookie';
+import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
+
+const cookies = new Cookies();
+
 
 class LogInForm extends Component {
     constructor(props){
@@ -14,6 +18,7 @@ class LogInForm extends Component {
 
     submit(event) {
         event.preventDefault ();
+
 
         let usersStorage = localStorage.getItem("users");
 
@@ -32,8 +37,12 @@ class LogInForm extends Component {
                     this.setState({error: "Las credenciales ingresadas no son válidas"});
                     return;
                 } else {
+                    console.log("antes del session");
+                    
                     sessionStorage.setItem("usuarioEnSesion", JSON.stringify({sesionActiva: true}));
-                    Cookies.set("auth-user", usersFiltrado[0].email);
+                     cookies.set("auth-user", usersFiltrado[0].email);
+                    console.log("despues del sesion");
+                    
                     this.props.history.push("/");
                 }
             }
@@ -63,4 +72,4 @@ class LogInForm extends Component {
     }
 }
 
-export default LogInForm;
+export default withRouter(LogInForm)
