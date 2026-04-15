@@ -36,6 +36,28 @@ class LogInForm extends Component {
             }
         }
     }
+
+    render() {
+        return (
+            <form onSubmit={(e) => this.submit(e)}>
+               
+                <div className="form-group">
+                    <input type="text" placeholder = "Email" className="form-control" value={this.state.email} onChange={(e) => this.setState({ email: e.target.value })}/>
+                    {this.state.errorEmail && (<p className="text-danger">{this.state.errorEmail}</p>)}
+                </div>
+
+                <div className="form-group">
+                    <input type="password" placeholder = "Password" className="form-control" value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} />
+                    {this.state.errorPassword && (<p className="text-danger">{this.state.errorPassword}</p>)}
+                </div>
+
+                <button type="submit" className="btn btn-primary btn-block">
+                    Log In
+                </button>
+
+            </form>
+        );
+    }
 }
 
 export default LogInForm;
