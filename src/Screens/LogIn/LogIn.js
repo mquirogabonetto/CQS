@@ -10,7 +10,12 @@ function LogIn () {
                 <source src="/videos/backgroundvideo.mp4" type="video/mp4" />
             </video>
             <Header />
-            <LogInForm/>
+            <div className="login-container">
+                <div className="login-box">
+                    <h2>Log In</h2>
+                    <LogInForm />
+                </div>
+            </div>
             <Footer />
         </div>
     )

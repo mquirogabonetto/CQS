@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "../LogInForm/LogInForm.css"
 
 class LogInForm extends Component {
     constructor(props){
@@ -15,14 +16,14 @@ class LogInForm extends Component {
 
         let usersStorage = localStorage.getItem("users");
 
-        if (usersStorage == null) {
+        if (usersStorage === null) {
             this.setState({error: "Las credenciales ingresadas no son válidas"});
             return;
         } else {
-            usersParseado = JSON.parse(usersStorage);
+            let usersParseado = JSON.parse(usersStorage);
             let usersFiltrado = usersParseado.filter((elemento => elemento.email === this.state.email));
             // compara el mail guardado en el estado (se va actualizando cuando el usuario escribe)
-            if (usersFiltrado === 0) {
+            if (usersFiltrado.length === 0) {
                 this.setState({error: "El usuario ingresado no existe"});
                 return
             } else {
@@ -41,17 +42,17 @@ class LogInForm extends Component {
         return (
             <form onSubmit={(e) => this.submit(e)}>
                
-                <div className="form-group">
-                    <input type="text" placeholder = "Email" className="form-control" value={this.state.email} onChange={(e) => this.setState({ email: e.target.value })}/>
+                <div className="LogIn-form">
+                    <input type="text" placeholder = "Email" className="LogIn-Input" value={this.state.email} onChange={(e) => this.setState({ email: e.target.value })}/>
                     {this.state.errorEmail && (<p className="text-danger">{this.state.errorEmail}</p>)}
                 </div>
 
-                <div className="form-group">
-                    <input type="password" placeholder = "Password" className="form-control" value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} />
-                    {this.state.errorPassword && (<p className="text-danger">{this.state.errorPassword}</p>)}
+                <div className="LogIn-form">
+                    <input type="password" placeholder = "Password" className="LogIn-Input" value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} />
+                    {this.state.errorPassword && (<p className="text-error">{this.state.errorPassword}</p>)}
                 </div>
 
-                <button type="submit" className="btn btn-primary btn-block">
+                <button type="submit" className="LogIn-button">
                     Log In
                 </button>
 
