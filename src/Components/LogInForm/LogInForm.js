@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import "../LogInForm/LogInForm.css"
+import "../LogInForm/LogInForm.css";
+import Cookies from 'universal-cookie';
 
 class LogInForm extends Component {
     constructor(props){
@@ -32,6 +33,7 @@ class LogInForm extends Component {
                     return;
                 } else {
                     sessionStorage.setItem("usuarioEnSesion", JSON.stringify({sesionActiva: true}));
+                    Cookies.set("auth-user", usersFiltrado[0].email);
                     this.props.history.push("/");
                 }
             }
