@@ -5,6 +5,7 @@ import SearchForm from "../../Components/SearchForm/SearchForm";
 import HomeSection from "../../Components/HomeSection/HomeSection";
 import './Home.css'
 import "../../Components/SearchForm/SearchForm.css";
+import { Link } from "react-router-dom";
 
 function Home() {
     return (
@@ -16,8 +17,12 @@ function Home() {
             <div className="container"><SearchForm /></div>
             <h2>Popular Movies</h2>
             <HomeSection type="movie"/>
+            <Link to="/Peliculas" className="ver-mas">See more movies</Link>
+
             <h2>Popular Shows</h2>
             <HomeSection type="tv"/>
+            <Link to="/Series" className="ver-mas">See more shows</Link>
+
             <Footer />
         </div>
     )
