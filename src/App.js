@@ -9,6 +9,7 @@ import SignUp from './Screens/SignUp/SignUp';
 import SearchResults from './Screens/SearchResults/SearchResults';
 import Detalle from './Screens/Detalle/Detalle';
 import NotFound from "./Screens/NotFound/NotFound";
+import MiPerfil from "./Screens/MiPerfil/MiPerfil"
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/Favoritos" exact={true} component={Favoritos} />
           <Route path="/LogIn" exact={true} component={LogIn} />
           <Route path="/SignUp" exact={true} component={SignUp} />
+          <Route path="/MiPerfil" exact={true} component={MiPerfil} />
           <Route path="/SearchResults/:tipo/:busqueda" component={SearchResults} />
           <Route path="/Detalle/:tipo/:id" component={Detalle} />
           <Route component={NotFound} />

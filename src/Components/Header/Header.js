@@ -1,9 +1,12 @@
 import React from "react";
 import "./Header.css";
 import {Link} from "react-router-dom";
+import Cookies from 'universal-cookie';
 
+let cookies = new Cookies();
 
 function Header () {
+    let isLoggedIn = cookies.get("auth-user"); 
     return(
         <header className="header">
             <div className="header-container"> 
@@ -24,12 +27,23 @@ function Header () {
                         <li className="nav-item">
                             <Link className="nav-link" to="/Favoritos">Favorites</Link>
                         </li>
-                        <li className="nav-item ml-auto">
-                            <Link className="nav-link" to="/SignUp">Sign Up</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="LogIn">Log In</Link>
-                        </li>
+
+                        { isLoggedIn ? (
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/MiPerfil">Mi Perfil</Link>
+                            </li>
+                        ):(
+                            <>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/SignUp">Sign Up</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/LogIn">Log In</Link>
+                                </li>
+                            </>
+                        )}
+
+                        
                     </ul>
                 </nav>
             </div>

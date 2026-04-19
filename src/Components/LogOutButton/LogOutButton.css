@@ -1,0 +1,10 @@
+.button-logout {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    color: white;
+    font-size: 18px;
+    width: 10%;
+    height: 30px;
+    border-color: white;
+}
