@@ -25,6 +25,7 @@ class MovieSection extends Component {
     }
 
     render() {
+        let logueado = sessionStorage.getItem("usuarioEnSesion") !== null;
         return (
             <div>
                 <section className="cardContainer">
@@ -40,6 +41,7 @@ class MovieSection extends Component {
                                 poster={movie.poster_path}
                                 rating={movie.vote_average}
                                 overview={movie.overview}
+                                logueado={logueado}
                             />
                         ))
                     )}

@@ -4,11 +4,13 @@
     align-items: center;
     height: 50vh;
 }
-
+.load {
+    color: white;
+}
 .loader-text {
     color: white;
     font-size: 18px;
     font-weight: 500;
-
     animation: fadePulse 1.5s infinite;
 }
+

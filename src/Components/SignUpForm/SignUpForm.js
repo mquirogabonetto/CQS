@@ -14,8 +14,8 @@ class SignUpForm extends Component {
     }
 
     submit(event) {
-        event.preventDefault ();
-         
+        event.preventDefault();
+
         let usuarioACrear = {
             username: this.state.username,
             email: this.state.email,
@@ -23,23 +23,23 @@ class SignUpForm extends Component {
             createdAt: Date.now(),
         };
         if (usuarioACrear.username.length < 3 || usuarioACrear.username.length > 7) {
-            this.setState({errorUsername: "La extensión del username debe ser de 3 a 7 caracteres"});
+            this.setState({ errorUsername: "La extensión del username debe ser de 3 a 7 caracteres" });
             return;
         } else {
             this.setState({
                 errorUsername: ""
             })
         }
-        if (!usuarioACrear.email.includes("@")){
-            this.setState({errorEmail: "Email mal formateado"});
+        if (!usuarioACrear.email.includes("@")) {
+            this.setState({ errorEmail: "Email mal formateado" });
             return;
         } else {
             this.setState({
                 errorEmail: ""
             })
         }
-        if (usuarioACrear.password.length < 5 ||usuarioACrear.password.length > 12){
-            this.setState({errorPassword: "La extensión del password debe ser de 5 a 12 caracteres"});
+        if (usuarioACrear.password.length < 6) {
+            this.setState({ errorPassword: "La extensión del password debe ser de mínimo 6 caracteres" });
             return;
         } else {
             this.setState({
@@ -48,39 +48,39 @@ class SignUpForm extends Component {
         }
         let usersStorage = localStorage.getItem("users");
         if (usersStorage !== null) {
-            let usersParseado = JSON.parse (usersStorage);
+            let usersParseado = JSON.parse(usersStorage);
             let usersFiltrado = usersParseado.filter((elemento => elemento.email === this.state.email));
-            if (usersFiltrado.length > 0){
-                this.setState({errorEmail: "Ya existe un usuario con el email ingresado"});
+            if (usersFiltrado.length > 0) {
+                this.setState({ errorEmail: "Ya existe un usuario con el email ingresado" });
                 return;
             } else {
-                usersParseado.push (usuarioACrear);
-                let usersEnJson = JSON.stringify (usersParseado);
-                localStorage.setItem ("users", usersEnJson);
+                usersParseado.push(usuarioACrear);
+                let usersEnJson = JSON.stringify(usersParseado);
+                localStorage.setItem("users", usersEnJson);
             }
         } else {
             let usersInicial = [usuarioACrear];
-            let usersEnJson = JSON.stringify (usersInicial);
-            localStorage.setItem ("users", usersEnJson);
+            let usersEnJson = JSON.stringify(usersInicial);
+            localStorage.setItem("users", usersEnJson);
         }
-        this.props.history.push("/login");
+        this.props.history.push("/LogIn");
     }
 
     render() {
         return (
             <form onSubmit={(e) => this.submit(e)}>
                 <div className="form-group">
-                    <input type="text" placeholder = "Username" className="form-control" value={this.state.username} onChange={(e) => this.setState({ username: e.target.value })}/>
+                    <input type="text" placeholder="Username" className="form-control" value={this.state.username} onChange={(e) => this.setState({ username: e.target.value })} />
                     {this.state.errorUsername && (<p className="text-danger">{this.state.errorUsername}</p>)}
                 </div>
-               
+
                 <div className="form-group">
-                    <input type="text" placeholder = "Email" className="form-control" value={this.state.email} onChange={(e) => this.setState({ email: e.target.value })}/>
+                    <input type="text" placeholder="Email" className="form-control" value={this.state.email} onChange={(e) => this.setState({ email: e.target.value })} />
                     {this.state.errorEmail && (<p className="text-danger">{this.state.errorEmail}</p>)}
                 </div>
 
                 <div className="form-group">
-                    <input type="password" placeholder = "Password" className="form-control" value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} />
+                    <input type="password" placeholder="Password" className="form-control" value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} />
                     {this.state.errorPassword && (<p className="text-danger">{this.state.errorPassword}</p>)}
                 </div>
 
@@ -92,5 +92,5 @@ class SignUpForm extends Component {
         );
     }
 }
-    
+
 export default SignUpForm;

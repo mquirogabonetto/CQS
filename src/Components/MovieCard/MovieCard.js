@@ -32,12 +32,12 @@ class MovieCard extends Component {
     let tipo = this.props.tipo;
     let storageKey = tipo === "movie" ? "favoritosMovies" : "favoritosSeries";
     let favoritos = JSON.parse(localStorage.getItem(storageKey)) || [];
-    let existe = favoritos.find (f => f.id === this.props.id);
+    let existe = favoritos.find(f => f.id === this.props.id);
 
     if (existe) {
       favoritos = favoritos.filter(f => f.id !== this.props.id);
-      this.setState({esFavorito: false});
-      
+      this.setState({ esFavorito: false });
+
       if (this.props.onRemove) {
         this.props.onRemove(this.props.id, tipo);
       }
@@ -49,8 +49,7 @@ class MovieCard extends Component {
         poster: this.props.poster,
         overview: this.props.overview
       });
-      this.setState({esFavorito: true});
-      localStorage.setItem(storageKey, JSON.stringify(favoritos));
+      this.setState({ esFavorito: true });
     }
     localStorage.setItem(storageKey, JSON.stringify(favoritos));
   }
@@ -70,11 +69,12 @@ class MovieCard extends Component {
           </Link>
         </div>
         {this.state.mostrarInfo && <p>{this.props.overview}</p>}
-        {this.state.esFavorito ? (
-          <button className="btn-favorites" onClick={() => this.manejarFavorito()}>Remove ❌</button>
-        ) : (
-          <button className="btn-favorites" onClick={() => this.manejarFavorito()}>Add to favorites ⭐</button>
-          )}
+
+        {this.props.logueado && (
+          <button className="btn-favorites" onClick={() => this.manejarFavorito()}>
+            {this.state.esFavorito ? "Remove ❌" : "Add to favorites ⭐"}
+          </button>
+        )}
       </div>
     )
   }

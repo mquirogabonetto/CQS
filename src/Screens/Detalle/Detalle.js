@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
-import './Detalle.css';
 import Loader from "../Loader/Loader";
+import './Detalle.css';
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+
 
 class Detalle extends Component {
     constructor(props) {
@@ -20,48 +23,44 @@ class Detalle extends Component {
         fetch("https://api.themoviedb.org/3/" + tipo + "/" + id + "?api_key=b604e547cd3fb7ac5cc35be72e2e0516")
             .then((response) => response.json())
             .then((data) => {
-                let tipo = this.props.match.params.tipo;
                 let storageKey = tipo === "movie" ? "favoritosMovies" : "favoritosSeries";
-
                 let favoritos = JSON.parse(localStorage.getItem(storageKey)) || [];
-                let existe = favoritos.find(f => f.id === data.id);
-
-                this.setState({ detalle: data, cargando: false, esFavorito: existe ? true : false });
+                let filtrados = favoritos.filter(f => f.id === data.id);
+                let existe = filtrados.length > 0;
+                this.setState({ detalle: data, cargando: false, esFavorito: existe });
             })
             .catch((error) => {
                 console.log(error);
                 this.setState({ cargando: false });
             });
     }
+    manejarFavorito() {
+        let tipo = this.props.match.params.tipo;
+        let storageKey = tipo === "movie" ? "favoritosMovies" : "favoritosSeries";
 
-      manejarFavorito() {
-    let tipo = this.props.tipo;
-    let storageKey = tipo === "movie" ? "favoritosMovies" : "favoritosSeries";
-    let favoritos = JSON.parse(localStorage.getItem(storageKey)) || [];
-    let existe = favoritos.find (f => f.id === this.props.id);
+        let favoritos = JSON.parse(localStorage.getItem(storageKey)) || [];
 
-    if (existe) {
-      favoritos = favoritos.filter(f => f.id !== this.props.id);
-      this.setState({esFavorito: false});
-      
-      if (this.props.onRemove) {
-        this.props.onRemove(this.props.id, tipo);
-      }
+        let filtrados = favoritos.filter(f => f.id === this.state.detalle.id);
+        let existe = filtrados.length > 0;
 
-    } else {
-      favoritos.push({
-        id: this.props.id,
-        title: this.props.title,
-        poster: this.props.poster,
-        overview: this.props.overview
-      });
-      this.setState({esFavorito: true});
-      localStorage.setItem(storageKey, JSON.stringify(favoritos));
+        if (existe) {
+            favoritos = favoritos.filter(f => f.id !== this.state.detalle.id);
+            this.setState({ esFavorito: false });
+        } else {
+            favoritos.push({
+                id: this.state.detalle.id,
+                title: this.state.detalle.title || this.state.detalle.name,
+                poster: this.state.detalle.poster_path,
+                overview: this.state.detalle.overview
+            });
+            this.setState({ esFavorito: true });
+        }
+
+        localStorage.setItem(storageKey, JSON.stringify(favoritos));
     }
-    localStorage.setItem(storageKey, JSON.stringify(favoritos));
-  }
 
     render() {
+        let logueado = cookies.get("auth-user") || sessionStorage.getItem("usuarioEnSesion");
         let tipo = this.props.match.params.tipo;
         return (
             <div className="detalle-page">
@@ -75,10 +74,17 @@ class Detalle extends Component {
                         <section className="row">
                             <div className="col-md-6 detalle-poster">
                                 <img src={"https://image.tmdb.org/t/p/w342/" + this.state.detalle.poster_path} className="col-md-6" alt={tipo === "movie" ? this.state.detalle.title : this.state.detalle.name} />
-                                {this.state.esFavorito ? (
-                                    <button className="btn-favorites" onClick={() => this.manejarFavorito()}>Remove ❌</button>
-                                ) : (
-                                    <button className="btn-favorites" onClick={() => this.manejarFavorito()}>Add to favorites ⭐</button>)}
+                                {logueado && (
+                                    this.state.esFavorito ? (
+                                        <button className="btn-favorites" onClick={() => this.manejarFavorito()}>
+                                            Remove ❌
+                                        </button>
+                                    ) : (
+                                        <button className="btn-favorites" onClick={() => this.manejarFavorito()}>
+                                            Add to favorites ⭐
+                                        </button>
+                                    )
+                                )}
                             </div>
                             <div className="col-md-6 detalle-info">
                                 <h3>{tipo === "movie" ? this.state.detalle.title : this.state.detalle.name}</h3>

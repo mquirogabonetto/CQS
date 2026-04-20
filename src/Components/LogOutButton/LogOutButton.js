@@ -8,7 +8,7 @@ const cookies = new Cookies();
 class LogOutButton extends Component {
 
     logout() {
-        cookies.remove("auth-user");
+        cookies.remove("auth-user", { path: "/" });
         sessionStorage.removeItem("usuarioEnSesion");
         this.props.history.push("/LogIn");
     }
@@ -18,7 +18,7 @@ class LogOutButton extends Component {
             <div>
                 <button className='button-logout' onClick={() => this.logout()}>Log Out</button>
             </div>
-            
+
         );
     }
 }

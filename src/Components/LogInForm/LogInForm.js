@@ -1,13 +1,11 @@
 import React, { Component } from "react";
-import "../LogInForm/LogInForm.css";
+import { withRouter } from "react-router-dom";
 import Cookies from 'universal-cookie';
-import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
 
-const cookies = new Cookies();
-
+const cookies = new Cookies()
 
 class LogInForm extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             email: "",
@@ -17,52 +15,45 @@ class LogInForm extends Component {
     }
 
     submit(event) {
-        event.preventDefault ();
+        event.preventDefault();
 
-
-        let usersStorage = localStorage.getItem("users");
+        const usersStorage = localStorage.getItem("users");
 
         if (usersStorage === null) {
-            this.setState({error: "Las credenciales ingresadas no son válidas"});
+            this.setState({ error: "Credenciales incorrectas" });
             return;
         } else {
-            let usersParseado = JSON.parse(usersStorage);
-            let usersFiltrado = usersParseado.filter((elemento => elemento.email === this.state.email));
-            // compara el mail guardado en el estado (se va actualizando cuando el usuario escribe)
+            const usersParseado = JSON.parse(usersStorage);
+            const usersFiltrado = usersParseado.filter(elemento => elemento.email === this.state.email);
             if (usersFiltrado.length === 0) {
-                this.setState({error: "El usuario ingresado no existe"});
+                this.setState({ error: "Credenciales incorrectas" });
                 return
-            } else {
-                if (usersFiltrado[0].password !== this.state.password) {
-                    this.setState({error: "Las credenciales ingresadas no son válidas"});
-                    return;
-                } else {
-                    console.log("antes del session");
-                    
-                    sessionStorage.setItem("usuarioEnSesion", JSON.stringify({sesionActiva: true}));
-                     cookies.set("auth-user", usersFiltrado[0].email);
-                    console.log("despues del sesion");
-                    
-                    this.props.history.push("/");
-                }
             }
+            if (usersFiltrado[0].password !== this.state.password) {
+                this.setState({ error: "Credenciales incorrectas" });
+                return;
+            }
+
+            cookies.set("auth-user", usersFiltrado[0].email, { path: "/" });
+            sessionStorage.setItem("usuarioEnSesion", JSON.stringify({ sesionActiva: true }));
+            this.props.history.push("/");
         }
     }
 
     render() {
         return (
             <form onSubmit={(e) => this.submit(e)}>
-               
+
                 <div className="LogIn-form">
-                    <input type="text" placeholder = "Email" className="LogIn-Input" value={this.state.email} onChange={(e) => this.setState({ email: e.target.value })}/>
-                    {this.state.errorEmail && (<p className="text-danger">{this.state.errorEmail}</p>)}
+                    <input type="text" placeholder="Email" className="LogIn-Input" value={this.state.email} onChange={(e) => this.setState({ email: e.target.value })} />
                 </div>
 
                 <div className="LogIn-form">
-                    <input type="password" placeholder = "Password" className="LogIn-Input" value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} />
-                    {this.state.errorPassword && (<p className="text-error">{this.state.errorPassword}</p>)}
+                    <input type="password" placeholder="Password" className="LogIn-Input" value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} />
                 </div>
-
+                {this.state.error && (
+                    <p className="text-danger">{this.state.error}</p>
+                )}
                 <button type="submit" className="LogIn-button">
                     Log In
                 </button>
@@ -72,4 +63,5 @@ class LogInForm extends Component {
     }
 }
 
-export default withRouter(LogInForm)
+
+export default withRouter(LogInForm);

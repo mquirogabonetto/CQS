@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import MovieCard from "../MovieCard/MovieCard";
 import Loader from "../../Screens/Loader/Loader";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 class HomeSection extends Component {
     constructor(props) {
@@ -19,7 +22,7 @@ class HomeSection extends Component {
             .then(response => response.json())
             .then(data => {
                 console.log("API response:", data);
-                this.setState({ 
+                this.setState({
                     datos: data.results || [],
                     loading: false
                 });
@@ -27,11 +30,12 @@ class HomeSection extends Component {
             .catch(error => {
                 console.log("Error:", error);
                 this.setState({ loading: false });
-});
+            });
 
     }
 
     render() {
+        let logueado = sessionStorage.getItem("usuarioEnSesion") !== null;
         return (
             <div>
                 <section className="cardContainer">
@@ -47,6 +51,7 @@ class HomeSection extends Component {
                                 poster={movie.poster_path}
                                 rating={movie.vote_average}
                                 overview={movie.overview}
+                                logueado={logueado}
                             />
                         ))
                     )}

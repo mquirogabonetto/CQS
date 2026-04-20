@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
-import './SearchResults.css';
 import MovieCard from "../../Components/MovieCard/MovieCard";
 import Loader from "../Loader/Loader";
+import Cookies from "universal-cookie";
+import './SearchResults.css';
+
+const cookies = new Cookies();
 
 class SearchResults extends Component {
     constructor(props) {
@@ -31,6 +33,7 @@ class SearchResults extends Component {
 
     render() {
         let tipo = this.props.match.params.tipo;
+        let logueado = sessionStorage.getItem("usuarioEnSesion") !== null;
         return (
             <div>
                 <video autoPlay muted loop className="video-bg">
@@ -38,8 +41,18 @@ class SearchResults extends Component {
                 </video>
                 <Header />
                 <div className="container">
-                    <h2 className="search-results-title"> {tipo === "movie" ? "Movies" : "Shows"}: {this.props.match.params.busqueda}</h2>
-                    {this.state.cargando ? (<Loader />) : (
+                    {!this.state.cargando && this.state.resultados.length > 0 && (
+                        <h2 className="search-results-title">
+                            {tipo === "movie" ? "Movies" : "Shows"}: {this.props.match.params.busqueda}
+                        </h2>
+                    )}
+                    {this.state.cargando ? (
+                        <Loader />
+                    ) : this.state.resultados.length === 0 ? (
+                        <p className="no-results">
+                            No hay resultados para: "{this.props.match.params.busqueda}"
+                        </p>
+                    ) : (
                         <section className="cardContainer">
                             {this.state.resultados.map((item) => (
                                 <MovieCard
@@ -49,6 +62,7 @@ class SearchResults extends Component {
                                     title={item.title || item.name}
                                     poster={item.poster_path}
                                     overview={item.overview}
+                                    logueado={logueado}
                                 />
                             ))}
                         </section>
