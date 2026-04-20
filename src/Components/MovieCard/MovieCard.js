@@ -55,7 +55,6 @@ class MovieCard extends Component {
   }
 
   render() {
-    console.log("tipo:", this.props.tipo, "id:", this.props.id)
     return (
       <div className="character-card">
         <img src={`https://image.tmdb.org/t/p/w500${this.props.poster}`} alt={this.props.title} />

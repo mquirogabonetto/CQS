@@ -21,7 +21,6 @@ class HomeSection extends Component {
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                console.log("API response:", data);
                 this.setState({
                     datos: data.results || [],
                     loading: false
@@ -35,7 +34,7 @@ class HomeSection extends Component {
     }
 
     render() {
-        let logueado = sessionStorage.getItem("usuarioEnSesion") !== null;
+        let logueado = cookies.get("auth-user");
         return (
             <div>
                 <section className="cardContainer">
