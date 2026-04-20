@@ -24,25 +24,30 @@ function Header () {
                         <li className="nav-item">
                             <Link className="nav-link" to="/Series">Shows</Link>
                         </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/Favoritos">Favorites</Link>
-                        </li>
 
-                        { isLoggedIn ? (
+                        { isLoggedIn && (
                             <li className="nav-item">
-                                <Link className="nav-link" to="/MiPerfil">Mi Perfil</Link>
+                                <Link className="nav-link" to="/Favoritos">Favorites</Link>
                             </li>
-                        ):(
-                            <>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/SignUp">Sign Up</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/LogIn">Log In</Link>
-                                </li>
-                            </>
+                        )}
+                        
+                        { isLoggedIn && (
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/MiPerfil">My Profile</Link>
+                            </li>
+                        )}
+                            
+                        { !isLoggedIn && (
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/SignUp">Sign Up</Link>
+                            </li>
                         )}
 
+                        { !isLoggedIn && (
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/LogIn">Log In</Link>
+                            </li>
+                        )}  
                         
                     </ul>
                 </nav>
