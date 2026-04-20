@@ -32,7 +32,7 @@ class MovieSection extends Component {
 
     cargarMas = () => {
         this.setState(
-            prevState => ({ page: prevState.page + 1 }),
+            this.setState({ page: this.state.page + 1 }),
             () => this.cargarPeliculas()
         );
     };
