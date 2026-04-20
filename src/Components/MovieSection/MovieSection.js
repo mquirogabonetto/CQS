@@ -7,32 +7,69 @@ class MovieSection extends Component {
         super(props);
         this.state = {
             datos: [],
+            page: 1,
+            texto: "",
         };
     }
 
     componentDidMount() {
+        this.cargarPeliculas();
+    }
+
+    cargarPeliculas() {
         const apiKey = "b604e547cd3fb7ac5cc35be72e2e0516";
         let type = this.props.type;
-        const url = `https://api.themoviedb.org/3/${type}/popular?api_key=${apiKey}`;
+
+        const url = `https://api.themoviedb.org/3/${type}/popular?api_key=${apiKey}&page=${this.state.page}`;
+
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                console.log("API response:", data);
-                this.setState({ datos: data.results || [] });
+                this.setState({
+                    datos: [...this.state.datos, ...data.results]
+                });
             })
             .catch(error => console.log("Error:", error));
-
     }
+
+    cargarMas = () => {
+        this.setState(
+            prevState => ({ page: prevState.page + 1 }),
+            () => this.cargarPeliculas()
+        );
+    };
+
+    handleChange = (e) => {
+        this.setState({
+            texto: e.target.value
+        });
+    };
 
     render() {
         let logueado = sessionStorage.getItem("usuarioEnSesion") !== null;
+
+        let peliculasFiltradas = this.state.datos.filter(movie =>
+            (movie.title || movie.name || "")
+                .toLowerCase()
+                .includes(this.state.texto.toLowerCase())
+        );
+
         return (
             <div>
+                <div className="filtro-contenedor">
+                    <input
+                        type="text"
+                        placeholder="Filtrar..."
+                        value={this.state.texto}
+                        onChange={this.handleChange}
+                        className="filtro"
+                    />
+                </div>
                 <section className="cardContainer">
-                    {this.state.datos.length === 0 ? (
-                        <h3>Loading...</h3>
+                    {peliculasFiltradas.length === 0 ? (
+                        <h3>No hay resultados</h3>
                     ) : (
-                        this.state.datos.map((movie) => (
+                        peliculasFiltradas.map((movie) => (
                             <MovieCard
                                 key={movie.id}
                                 id={movie.id}
@@ -46,6 +83,11 @@ class MovieSection extends Component {
                         ))
                     )}
                 </section>
+
+                <button className="boton-cargarmas" onClick={this.cargarMas}>
+                    Cargar más
+                </button>
+
             </div>
         );
     }

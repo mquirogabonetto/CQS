@@ -8,3 +8,38 @@
     border-radius: 20px;
     margin: 20px 52px 40px 52px;
 }
+
+.boton-cargarmas {
+    display: block;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    margin: 10px auto 30px;
+    text-decoration: none;
+    border: 1px solid white;
+    width: fit-content;
+    padding: 8px 24px;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.filtro {
+    border: none;
+    outline: none;
+    padding: 12px 15px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    flex: 1;
+    width: 20%;
+    color: white;
+}
+
+.filtro-contenedor {
+    margin-left: auto;
+    margin-top: 20px;
+}
+
+.filtro::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
