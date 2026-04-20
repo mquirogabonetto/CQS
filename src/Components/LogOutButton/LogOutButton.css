@@ -8,3 +8,11 @@
     height: 30px;
     border-color: white;
 }
+
+@media (max-width: 420px) {
+  .button-logout {
+    width: 60%;
+    height: auto;
+    padding: 10px;
+  }
+}

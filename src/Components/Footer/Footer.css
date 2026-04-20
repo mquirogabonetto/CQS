@@ -12,3 +12,12 @@
     backdrop-filter: blur(10px);
     color: white;
 }
+
+@media (max-width: 420px) {
+  .footer p {
+    font-size: 12px;
+    text-align: center;
+    padding: 10px 15px;
+ 
+  }
+}

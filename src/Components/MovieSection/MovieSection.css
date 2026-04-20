@@ -43,3 +43,35 @@
 .filtro::placeholder {
     color: rgba(255, 255, 255, 0.7);
 }
+
+@media (max-width: 420px) {
+    .cardContainer {
+        margin: 10px 10px 20px 10px;
+        gap: 13px;
+        justify-content: center;
+    }
+
+    .character-card {
+        width: 48%;
+    }
+
+    .filtro-contenedor {
+        display: flex;
+        justify-content: center;
+        margin: 10px auto;
+        padding: 0 15px;
+    }
+
+    .character-card .buttons {
+        gap: 0px;
+    }
+
+    .character-card .buttons button {
+        font-size: 12px;
+        padding: 5px 5px;
+    }
+
+    .filtro {
+        width: 100%;
+    }
+}

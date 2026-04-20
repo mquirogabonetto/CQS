@@ -25,7 +25,7 @@
     gap: 10px;
 }
 
-.logo img{
+.logo img {
     width: 200px;
 }
 
@@ -36,7 +36,7 @@
     gap: 20px;
 }
 
-.nav-item{
+.nav-item {
     list-style: none;
     font-weight: 500;
 }
@@ -44,5 +44,24 @@
 .nav-link {
     text-decoration: none;
     color: white;
-    font-size: 17px ;
+    font-size: 17px;
+}
+
+@media (max-width: 420px) {
+    .logo img {
+        width: 95px;
+    }
+
+    .Navbar {
+        gap: 8px;
+        margin-right: 9px;
+    }
+
+    .nav-link {
+        font-size: 10px;
+    }
+
+    .header-container {
+        padding: 10px 8px;
+    }
 }
