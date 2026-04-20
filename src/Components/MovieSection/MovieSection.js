@@ -24,8 +24,11 @@ class MovieSection extends Component {
 
         fetch(url)
             .then(response => response.json())
-            .then(data => { let nuevasPeliculas = this.state.datos; for (let i = 0; i < data.results.length; i++) { nuevasPeliculas[nuevasPeliculas.length] = data.results[i]; } 
-            this.setState({ datos: nuevasPeliculas }); })
+             .then(data => {
+                let nuevasPeliculas = [...this.state.datos];
+                for (let i = 0; i < data.results.length; i++) {nuevasPeliculas.push(data.results[i]);}
+                this.setState({ datos: nuevasPeliculas });
+            })
 
             .catch(error => console.log("Error:", error));
     }
