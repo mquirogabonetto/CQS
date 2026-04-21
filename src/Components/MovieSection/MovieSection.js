@@ -20,34 +20,24 @@ class MovieSection extends Component {
     componentDidMount() {
         this.cargarPeliculas();
     }
-    cargarPeliculas() {
-        const apiKey = "b604e547cd3fb7ac5cc35be72e2e0516";
-        let type = this.props.type;
+cargarPeliculas() {
+    const apiKey = "b604e547cd3fb7ac5cc35be72e2e0516";
+    let type = this.props.type;
+    const url = `https://api.themoviedb.org/3/${type}/popular?api_key=${apiKey}&page=${this.state.page}`;
 
-        const url = `https://api.themoviedb.org/3/${type}/popular?api_key=${apiKey}&page=${this.state.page}`;
-
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-
-                let nuevasPeliculas = [];
-                for (let i = 0; i < this.state.datos.length; i++) {
-                    nuevasPeliculas[nuevasPeliculas.length] = this.state.datos[i];
-                }
-                for (let i = 0; i < data.results.length; i++) {
-                    nuevasPeliculas[nuevasPeliculas.length] = data.results[i];
-                }
-
-                this.setState({
-                    datos: nuevasPeliculas,
-                    loading: false
-                });
-            })
-            .catch(error => {
-                console.log("Error:", error);
-                this.setState({ loading: false });
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            this.setState({
+                datos: this.state.datos.concat(data.results),
+                loading: false
             });
-    }
+        })
+        .catch(error => {
+            console.log("Error:", error);
+            this.setState({ loading: false });
+        });
+}
 
     cargarMas = () => {
         this.setState(
