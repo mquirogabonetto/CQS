@@ -20,24 +20,38 @@ class MovieSection extends Component {
     componentDidMount() {
         this.cargarPeliculas();
     }
-cargarPeliculas() {
-    const apiKey = "b604e547cd3fb7ac5cc35be72e2e0516";
-    let type = this.props.type;
-    const url = `https://api.themoviedb.org/3/${type}/popular?api_key=${apiKey}&page=${this.state.page}`;
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            this.setState({
-                datos: this.state.datos.concat(data.results),
-                loading: false
+    cargarPeliculas() {
+        const apiKey = "b604e547cd3fb7ac5cc35be72e2e0516";
+        let type = this.props.type;
+
+        const url = `https://api.themoviedb.org/3/${type}/popular?api_key=${apiKey}&page=${this.state.page}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                let nuevos = data.results;
+                let combinados = this.state.datos.concat(nuevos);
+                let ids = [];
+                let sinDuplicados = combinados.filter(movie => {
+                    if (!ids.includes(movie.id)) {
+                        ids.push(movie.id);
+                        return true;
+                    }
+                    return false;
+                });
+
+                this.setState({
+                    datos: sinDuplicados,
+                    loading: false
+                });
+            })
+            .catch(error => {
+                console.log("Error:", error);
+                this.setState({ loading: false });
             });
-        })
-        .catch(error => {
-            console.log("Error:", error);
-            this.setState({ loading: false });
-        });
-}
+    }
+
 
     cargarMas = () => {
         this.setState(
