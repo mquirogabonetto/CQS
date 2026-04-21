@@ -23,7 +23,7 @@ class SignUpForm extends Component {
             createdAt: Date.now(),
         };
         if (usuarioACrear.username.length < 3 || usuarioACrear.username.length > 7) {
-            this.setState({ errorUsername: "La extensión del username debe ser de 3 a 7 caracteres" });
+            this.setState({ errorUsername: "Username must be between 3 and 7 characters" });
             return;
         } else {
             this.setState({
@@ -31,7 +31,7 @@ class SignUpForm extends Component {
             })
         }
         if (!usuarioACrear.email.includes("@")) {
-            this.setState({ errorEmail: "Email mal formateado" });
+            this.setState({ errorEmail: "Invalid email format" });
             return;
         } else {
             this.setState({
@@ -39,7 +39,7 @@ class SignUpForm extends Component {
             })
         }
         if (usuarioACrear.password.length < 6) {
-            this.setState({ errorPassword: "La extensión del password debe ser de mínimo 6 caracteres" });
+            this.setState({ errorPassword: "Password must be at least 6 characters" });
             return;
         } else {
             this.setState({
@@ -51,7 +51,7 @@ class SignUpForm extends Component {
             let usersParseado = JSON.parse(usersStorage);
             let usersFiltrado = usersParseado.filter((elemento => elemento.email === this.state.email));
             if (usersFiltrado.length > 0) {
-                this.setState({ errorEmail: "Ya existe un usuario con el email ingresado" });
+                this.setState({ errorEmail: "An account with this email already exists" });
                 return;
             } else {
                 usersParseado.push(usuarioACrear);

@@ -1,15 +1,16 @@
 import './App.css';
-import Home from "./Screens/Home/Home";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
+import Home from "./Screens/Home/Home";
 import Peliculas from './Screens/Peliculas/Peliculas';
 import Series from './Screens/Series/Series';
 import Favoritos from './Screens/Favoritos/Favoritos';
-import LogIn from './Screens/LogIn/LogIn';
 import SignUp from './Screens/SignUp/SignUp';
+import LogIn from './Screens/LogIn/LogIn';
+import MiPerfil from "./Screens/MiPerfil/MiPerfil"
 import SearchResults from './Screens/SearchResults/SearchResults';
 import Detalle from './Screens/Detalle/Detalle';
 import NotFound from "./Screens/NotFound/NotFound";
-import MiPerfil from "./Screens/MiPerfil/MiPerfil"
+
 
 function App() {
   return (

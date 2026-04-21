@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import "./MovieSection.css";
 import MovieCard from "../MovieCard/MovieCard";
+import Loader from "../../Screens/Loader/Loader";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 class MovieSection extends Component {
     constructor(props) {
@@ -9,6 +13,7 @@ class MovieSection extends Component {
             datos: [],
             page: 1,
             texto: "",
+            loading: true
         };
     }
 
@@ -19,76 +24,86 @@ class MovieSection extends Component {
     cargarPeliculas() {
         const apiKey = "b604e547cd3fb7ac5cc35be72e2e0516";
         let type = this.props.type;
-
         const url = `https://api.themoviedb.org/3/${type}/popular?api_key=${apiKey}&page=${this.state.page}`;
 
         fetch(url)
             .then(response => response.json())
-             .then(data => {
-                let nuevasPeliculas = [...this.state.datos];
-                for (let i = 0; i < data.results.length; i++) {nuevasPeliculas.push(data.results[i]);}
-                this.setState({ datos: nuevasPeliculas });
-            })
+            .then(data => {
+                let nuevasPeliculas = this.state.datos;
+                for (let i = 0; i < data.results.length; i++) {
+                    nuevasPeliculas[nuevasPeliculas.length] = data.results[i];
+                }
 
-            .catch(error => console.log("Error:", error));
+                this.setState({
+                    datos: nuevasPeliculas,
+                    loading: false
+                });
+            })
+            .catch(error => {
+                console.log("Error:", error);
+                this.setState({ loading: false });
+            });
     }
 
     cargarMas = () => {
         this.setState(
-            this.setState({ page: this.state.page + 1 }),
+            { page: this.state.page + 1, loading: true },
             () => this.cargarPeliculas()
         );
-    };
+    }
 
     handleChange = (e) => {
         this.setState({
             texto: e.target.value
         });
-    };
+    }
 
     render() {
-        let logueado = sessionStorage.getItem("usuarioEnSesion") !== null;
-
-        let peliculasFiltradas = this.state.datos.filter(movie =>
-            (movie.title || movie.name || "")
-                .toLowerCase()
-                .includes(this.state.texto.toLowerCase())
-        );
+        let logueado = cookies.get("auth-user");
+        let peliculasFiltradas = this.state.datos.filter(movie => {
+            let titulo = (movie.title || movie.name || "").toLowerCase();
+            let texto = this.state.texto.toLowerCase();
+            return titulo.includes(texto);
+        });
 
         return (
             <div>
                 <div className="filtro-contenedor">
                     <input
                         type="text"
-                        placeholder="Filtrar..."
+                        placeholder="Filter..."
                         value={this.state.texto}
                         onChange={this.handleChange}
                         className="filtro"
                     />
                 </div>
-                <section className="cardContainer">
-                    {peliculasFiltradas.length === 0 ? (
-                        <h3>No hay resultados</h3>
-                    ) : (
-                        peliculasFiltradas.map((movie) => (
-                            <MovieCard
-                                key={movie.id}
-                                id={movie.id}
-                                tipo={this.props.type}
-                                title={movie.title || movie.name}
-                                poster={movie.poster_path}
-                                rating={movie.vote_average}
-                                overview={movie.overview}
-                                logueado={logueado}
-                            />
-                        ))
-                    )}
-                </section>
+
+                {this.state.loading ? (
+                    <Loader />
+                ) : (
+                    <section className="cardContainer">
+                        {peliculasFiltradas.length === 0 ? (
+                            <h3>No results found</h3>
+                        ) : (
+                            peliculasFiltradas.map((movie) => (
+                                <MovieCard
+                                    key={movie.id}
+                                    id={movie.id}
+                                    tipo={this.props.type}
+                                    title={movie.title || movie.name}
+                                    poster={movie.poster_path}
+                                    rating={movie.vote_average}
+                                    overview={movie.overview}
+                                    logueado={logueado}
+                                />
+                            ))
+                        )}
+                    </section>
+                )}
 
                 <button className="boton-cargarmas" onClick={this.cargarMas}>
-                    Cargar más
+                    Load more
                 </button>
-
             </div>
         );
     }

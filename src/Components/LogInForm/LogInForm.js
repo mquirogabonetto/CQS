@@ -20,22 +20,20 @@ class LogInForm extends Component {
         const usersStorage = localStorage.getItem("users");
 
         if (usersStorage === null) {
-            this.setState({ error: "Credenciales incorrectas" });
+            this.setState({ error: "Invalid credentials" });
             return;
         } else {
             const usersParseado = JSON.parse(usersStorage);
             const usersFiltrado = usersParseado.filter(elemento => elemento.email === this.state.email);
             if (usersFiltrado.length === 0) {
-                this.setState({ error: "Credenciales incorrectas" });
-                return
-            }
-            if (usersFiltrado[0].password !== this.state.password) {
-                this.setState({ error: "Credenciales incorrectas" });
+                this.setState({ error: "Invalid credentials" });
                 return;
             }
-
+            if (usersFiltrado[0].password !== this.state.password) {
+                this.setState({ error: "Invalid credentials" });
+                return;
+            }
             cookies.set("auth-user", usersFiltrado[0].email, { path: "/" });
-            sessionStorage.setItem("usuarioEnSesion", JSON.stringify({ sesionActiva: true }));
             this.props.history.push("/");
         }
     }

@@ -4,8 +4,8 @@ import Footer from "../../Components/Footer/Footer";
 import Loader from "../Loader/Loader";
 import './Detalle.css';
 import Cookies from "universal-cookie";
-const cookies = new Cookies();
 
+const cookies = new Cookies();
 
 class Detalle extends Component {
     constructor(props) {
@@ -60,7 +60,7 @@ class Detalle extends Component {
     }
 
     render() {
-        let logueado = cookies.get("auth-user") || sessionStorage.getItem("usuarioEnSesion");
+        let logueado = cookies.get("auth-user");
         let tipo = this.props.match.params.tipo;
         return (
             <div className="detalle-page">

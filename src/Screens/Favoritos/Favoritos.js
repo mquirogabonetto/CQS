@@ -1,38 +1,43 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import MovieCard from "../../Components/MovieCard/MovieCard";
+import Cookies from "universal-cookie";
 import "./Favoritos.css";
+
+const cookies = new Cookies();
 
 class Favoritos extends Component {
     constructor(props) {
         super(props);
         this.state = {
             movies: [],
-            series: [],
-            logueado: false
+            series: []
         };
     }
 
     componentDidMount() {
-        // 🔥 usamos sessionStorage (más estable que cookies en React)
-        let estaLogueado = sessionStorage.getItem("usuarioEnSesion") !== null;
+        const estaLogueado = cookies.get("auth-user");
+        if (!estaLogueado) {
+            this.props.history.push("/login");
+            return;
+        }
 
-        let favMovies = JSON.parse(localStorage.getItem("favoritosMovies")) || [];
-        let favSeries = JSON.parse(localStorage.getItem("favoritosSeries")) || [];
+        const favMovies = JSON.parse(localStorage.getItem("favoritosMovies")) || [];
+        const favSeries = JSON.parse(localStorage.getItem("favoritosSeries")) || [];
 
         this.setState({
             movies: favMovies,
-            series: favSeries,
-            logueado: estaLogueado
+            series: favSeries
         });
     }
 
-    eliminarFavorito(id, tipo) {
-        let storageKey = tipo === "movie" ? "favoritosMovies" : "favoritosSeries";
-        let lista = tipo === "movie" ? this.state.movies : this.state.series;
+    eliminarFavorito = (id, tipo) => {
+        const storageKey = tipo === "movie" ? "favoritosMovies" : "favoritosSeries";
+        const lista = tipo === "movie" ? this.state.movies : this.state.series;
 
-        let filtrados = lista.filter(item => item.id !== id);
+        const filtrados = lista.filter(item => item.id !== id);
         localStorage.setItem(storageKey, JSON.stringify(filtrados));
 
         if (tipo === "movie") {
@@ -43,6 +48,8 @@ class Favoritos extends Component {
     }
 
     render() {
+        const { movies, series } = this.state;
+
         return (
             <div>
                 <video autoPlay muted loop className="video-bg">
@@ -52,53 +59,45 @@ class Favoritos extends Component {
                 <Header />
 
                 <div className="container">
-                    {!this.state.logueado ? (
-                        <h2 className="nofavoritos">
-                            No tenés favoritos. Iniciá sesión.
-                        </h2>
+                    <h2>Favorite Movies</h2>
+
+                    {movies.length === 0 ? (
+                        <p className="empty">No favorite movies yet.</p>
                     ) : (
-                        <div>
-                            <h2>Favorite Movies</h2>
+                        <div className="cardContainer">
+                            {movies.map((item) => (
+                                <MovieCard
+                                    key={item.id}
+                                    id={item.id}
+                                    tipo="movie"
+                                    title={item.title}
+                                    poster={item.poster}
+                                    overview={item.overview}
+                                    logueado={true}
+                                    onRemove={this.eliminarFavorito}
+                                />
+                            ))}
+                        </div>
+                    )}
 
-                            {this.state.movies.length === 0 ? (
-                                <p className="empty">No favorite movies yet</p>
-                            ) : (
-                                <div className="cardContainer">
-                                    {this.state.movies.map(item => (
-                                        <MovieCard
-                                            key={item.id}
-                                            id={item.id}
-                                            tipo="movie"
-                                            title={item.title}
-                                            poster={item.poster}
-                                            overview={item.overview}
-                                            logueado={true}
-                                            onRemove={(id, tipo) => this.eliminarFavorito(id, tipo)}
-                                        />
-                                    ))}
-                                </div>
-                            )}
-                            <h2>Favorite Shows</h2>
+                    <h2>Favorite Shows</h2>
 
-                            {this.state.series.length === 0 ? (
-                                <p className="empty">No favorite shows yet</p>
-                            ) : (
-                                <div className="cardContainer">
-                                    {this.state.series.map(item => (
-                                        <MovieCard
-                                            key={item.id}
-                                            id={item.id}
-                                            tipo="tv"
-                                            title={item.title}
-                                            poster={item.poster}
-                                            overview={item.overview}
-                                            logueado={true}
-                                            onRemove={(id, tipo) => this.eliminarFavorito(id, tipo)}
-                                        />
-                                    ))}
-                                </div>
-                            )}
-
+                    {series.length === 0 ? (
+                        <p className="empty">No favorite shows yet.</p>
+                    ) : (
+                        <div className="cardContainer">
+                            {series.map((item) => (
+                                <MovieCard
+                                    key={item.id}
+                                    id={item.id}
+                                    tipo="tv"
+                                    title={item.title}
+                                    poster={item.poster}
+                                    overview={item.overview}
+                                    logueado={true}
+                                    onRemove={this.eliminarFavorito}
+                                />
+                            ))}
                         </div>
                     )}
                 </div>
@@ -109,4 +108,4 @@ class Favoritos extends Component {
     }
 }
 
-export default Favoritos;
+export default withRouter(Favoritos);

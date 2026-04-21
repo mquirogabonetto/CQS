@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import Cookies from 'universal-cookie';
 import "./LogOutButton.css";
+import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
@@ -9,7 +9,6 @@ class LogOutButton extends Component {
 
     logout() {
         cookies.remove("auth-user", { path: "/" });
-        sessionStorage.removeItem("usuarioEnSesion");
         this.props.history.push("/LogIn");
     }
 

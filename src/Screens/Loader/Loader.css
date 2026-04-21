@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50vh;
+    height: 300px;
 }
 .load {
     color: white;
@@ -11,6 +11,5 @@
     color: white;
     font-size: 18px;
     font-weight: 500;
-    animation: fadePulse 1.5s infinite;
 }
 

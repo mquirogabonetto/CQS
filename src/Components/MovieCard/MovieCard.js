@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import './MovieCard.css'
 import { withRouter, Link } from "react-router-dom";
+import './MovieCard.css'
 
 class MovieCard extends Component {
   constructor() {

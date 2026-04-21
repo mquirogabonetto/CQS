@@ -48,7 +48,6 @@
     color: white;
     font-size: 16px;
     cursor: pointer;
-    backdrop-filter: blur(10px);
 }
 
 .detalle-info {
@@ -59,7 +58,7 @@
 }
 
 .detalle-page .alert {
-    background: transparent;
+    background: none;
     border: none;
     color: white;
     text-align: center;
