@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
 import "./MovieSection.css";
 import MovieCard from "../MovieCard/MovieCard";
 import Loader from "../../Screens/Loader/Loader";
@@ -6,87 +7,74 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
-class MovieSection extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            datos: [],
-            page: 1,
-            texto: "",
-            loading: true
-        };
-    }
+function MovieSection(props) {
+    
+    const [datos, setDatos] = useState([]);        
+    const [page, setPage] = useState(1);           
+    const [texto, setTexto] = useState("");       
+    const [loading, setLoading] = useState(true);
 
-    componentDidMount() {
-        this.cargarPeliculas();
-    }
 
-    cargarPeliculas() {
+    useEffect( () => {
         const apiKey = "b604e547cd3fb7ac5cc35be72e2e0516";
-        let type = this.props.type;
+        let type = props.type;
 
-        const url = `https://api.themoviedb.org/3/${type}/popular?api_key=${apiKey}&page=${this.state.page}`;
+        const url = `https://api.themoviedb.org/3/${type}/popular?api_key=${apiKey}&page=${page}`;
 
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                let nuevos = data.results;
-                let combinados = this.state.datos.concat(nuevos);
-                let ids = [];
-                let sinDuplicados = combinados.filter(movie => {
-                    if (!ids.includes(movie.id)) {
-                        ids.push(movie.id);
-                        return true;
-                    }
-                    return false;
+                setDatos( estadoAnterior => {
+                    if (page === 1) return data.results; 
+                    const combinados = estadoAnterior.concat(data.results);
+                    const ids = [];
+                    return combinados.filter(movie => {
+                        if (!ids.includes(movie.id)) {
+                            ids.push(movie.id);
+                            return true;
+                        }
+                        return false;
+                    });
                 });
 
-                this.setState({
-                    datos: sinDuplicados,
-                    loading: false
-                });
+            setLoading(false);
+                
             })
             .catch(error => {
                 console.log("Error:", error);
-                this.setState({ loading: false });
+                setLoading(false);
             });
+    }, [page]);
+
+
+    const cargarMas = () => {
+        setLoading(true);
+        setPage (page+1);
     }
 
-
-    cargarMas = () => {
-        this.setState(
-            { page: this.state.page + 1, loading: true },
-            () => this.cargarPeliculas()
-        );
+    const handleChange = (e) => {
+        setTexto(e.target.value);
     }
 
-    handleChange = (e) => {
-        this.setState({
-            texto: e.target.value
-        });
-    }
-
-    render() {
-        let logueado = cookies.get("auth-user");
-        let peliculasFiltradas = this.state.datos.filter(movie => {
-            let titulo = (movie.title || movie.name || "").toLowerCase();
-            let texto = this.state.texto.toLowerCase();
-            return titulo.includes(texto);
-        });
-
+    let logueado = cookies.get("auth-user");
+    let peliculasFiltradas = datos.filter(movie => {
+        let titulo = (movie.title || movie.name || "").toLowerCase();
+        let textoLower = texto.toLowerCase();
+        return titulo.includes(textoLower);
+    });
         return (
             <div>
                 <div className="filtro-contenedor">
                     <input
                         type="text"
                         placeholder="Filter..."
-                        value={this.state.texto}
-                        onChange={this.handleChange}
+                        value={texto}
+                        onChange={handleChange}
                         className="filtro"
                     />
                 </div>
 
-                {this.state.loading ? (
+                {loading ? (
                     <Loader />
                 ) : (
                     <section className="cardContainer">
@@ -97,7 +85,7 @@ class MovieSection extends Component {
                                 <MovieCard
                                     key={movie.id}
                                     id={movie.id}
-                                    tipo={this.props.type}
+                                    tipo={props.type}
                                     title={movie.title || movie.name}
                                     poster={movie.poster_path}
                                     rating={movie.vote_average}
@@ -109,12 +97,12 @@ class MovieSection extends Component {
                     </section>
                 )}
 
-                <button className="boton-cargarmas" onClick={this.cargarMas}>
+                <button className="boton-cargarmas" onClick={cargarMas}>
                     Load more
                 </button>
             </div>
         );
     }
-}
+
 
 export default MovieSection;
