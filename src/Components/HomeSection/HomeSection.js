@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import MovieCard from "../MovieCard/MovieCard";
 import Loader from "../../Screens/Loader/Loader";

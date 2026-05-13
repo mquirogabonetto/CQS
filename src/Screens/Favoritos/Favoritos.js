@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
+import {useState, useEffect} from "react";
 import { withRouter } from "react-router-dom";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
@@ -8,48 +9,37 @@ import "./Favoritos.css";
 
 const cookies = new Cookies();
 
-class Favoritos extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            movies: [],
-            series: []
-        };
-    }
+function Favoritos (props) {
+    const [movies, setMovies] = useState([]);
+    const [series, setSeries] = useState([]);
 
-    componentDidMount() {
+    useEffect (() => {
         const estaLogueado = cookies.get("auth-user");
         if (!estaLogueado) {
-            this.props.history.push("/login");
+            props.history.push("/login");
             return;
         }
 
         const favMovies = JSON.parse(localStorage.getItem("favoritosMovies")) || [];
         const favSeries = JSON.parse(localStorage.getItem("favoritosSeries")) || [];
 
-        this.setState({
-            movies: favMovies,
-            series: favSeries
-        });
-    }
+        setMovies (favMovies);
+        setSeries (favSeries);
+    }, []);
 
-    eliminarFavorito = (id, tipo) => {
+    function eliminarFavorito (id, tipo) {
         const storageKey = tipo === "movie" ? "favoritosMovies" : "favoritosSeries";
-        const lista = tipo === "movie" ? this.state.movies : this.state.series;
+        const lista = tipo === "movie" ? movies : series;
 
         const filtrados = lista.filter(item => item.id !== id);
         localStorage.setItem(storageKey, JSON.stringify(filtrados));
 
         if (tipo === "movie") {
-            this.setState({ movies: filtrados });
+            setMovies (filtrados);
         } else {
-            this.setState({ series: filtrados });
+            setSeries (filtrados);
         }
     }
-
-    render() {
-        const { movies, series } = this.state;
-
         return (
             <div>
                 <video autoPlay muted loop className="video-bg">
@@ -74,7 +64,7 @@ class Favoritos extends Component {
                                     poster={item.poster}
                                     overview={item.overview}
                                     logueado={true}
-                                    onRemove={this.eliminarFavorito}
+                                    onRemove={eliminarFavorito}
                                 />
                             ))}
                         </div>
@@ -95,7 +85,7 @@ class Favoritos extends Component {
                                     poster={item.poster}
                                     overview={item.overview}
                                     logueado={true}
-                                    onRemove={this.eliminarFavorito}
+                                    onRemove={eliminarFavorito}
                                 />
                             ))}
                         </div>
@@ -106,6 +96,5 @@ class Favoritos extends Component {
             </div>
         );
     }
-}
 
 export default withRouter(Favoritos);

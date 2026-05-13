@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React from "react";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import SignUpForm from "../../Components/SignUpForm/SignUpForm";
 import './SignUp.css';
 
-class SignUp extends Component {
-    render() {
+function SignUp (props) {
         return (
             <div className="row justify-content-center">
                 <video autoPlay muted loop className="video-bg">
@@ -17,7 +16,7 @@ class SignUp extends Component {
                 <div className="form-container">
                     <div className="register-box">
                         <h2>Sign Up</h2>
-                        <SignUpForm history={this.props.history} />
+                        <SignUpForm history={props.history} />
                     </div>
                 </div>
 
@@ -25,6 +24,5 @@ class SignUp extends Component {
             </div>
         );
     }
-}
 
 export default SignUp;

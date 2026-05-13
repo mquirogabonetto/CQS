@@ -1,45 +1,38 @@
-import React, { Component } from "react";
+import React from "react";
+import { useState } from "react";
 import { withRouter } from "react-router-dom";
 
-class SearchForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            searchData: "",
-            tipo: "movie",
-            errorBusqueda: "",
-        };
+function SearchForm(props) {
+    const [searchData, setSearchData] = useState("");
+    const [tipo, setTipo] = useState("movie");
+    const [errorBusqueda, setErrorBusqueda] = useState("");
+
+    function controlarBusqueda(event) {
+        setSearchData(event.target.value);
     }
-    controlarBusqueda(event) {
-        this.setState({ searchData: event.target.value });
+    function controlarTipo(event) {
+        setTipo(event.target.value);
     }
-    controlarTipo(event) {
-        this.setState({ tipo: event.target.value });
-    }
-    enviarForm(event) {
+    function enviarForm(event) {
         event.preventDefault();
-        let busqueda = this.state.searchData;
-        let tipo = this.state.tipo;
-        if (busqueda === "") {
-            this.setState({ errorBusqueda: "Please enter something to search" });
+        if (errorBusqueda === "") {
+            setErrorBusqueda("Please enter something to search");
             return;
         }
-        this.setState({ errorBusqueda: "" });
-        this.props.history.push("/SearchResults/" + tipo + "/" + busqueda);
+        setErrorBusqueda("");
+        props.history.push("/SearchResults/" + tipo + "/" + searchData);
     }
-    render() {
-        return (
-            <form className="search-form" onSubmit={(event) => this.enviarForm(event)}>
-                <select className="form-control mb-2" value={this.state.tipo} onChange={(event) => this.controlarTipo(event)}>
-                    <option value="movie">Movies</option>
-                    <option value="tv">Shows</option>
-                </select>
-                <input type="text" name="searchData" placeholder="Search..." value={this.state.searchData} onChange={(event) => this.controlarBusqueda(event)} />
-                {this.state.errorBusqueda !== "" ? (<p className="text-danger">{this.state.errorBusqueda}</p>) : ("")}
-                <button type="submit" className="btn btn-success btn-sm">Search</button>
-            </form>
-        );
-    }
+    return (
+        <form className="search-form" onSubmit={(event) => enviarForm(event)}>
+            <select className="form-control mb-2" value={tipo} onChange={(event) => controlarTipo(event)}>
+                <option value="movie">Movies</option>
+                <option value="tv">Shows</option>
+            </select>
+            <input type="text" name="searchData" placeholder="Search..." value={searchData} onChange={(event) => controlarBusqueda(event)} />
+            {errorBusqueda !== "" ? (<p className="text-danger">{errorBusqueda}</p>) : ("")}
+            <button type="submit" className="btn btn-success btn-sm">Search</button>
+        </form>
+    );
 }
 
 export default withRouter(SearchForm);

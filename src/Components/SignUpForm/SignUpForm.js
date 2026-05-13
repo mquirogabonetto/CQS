@@ -1,57 +1,49 @@
-import React, { Component } from 'react';
+import React from "react";
+import { useState } from "react";
 
-class SignUpForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: "",
-            email: "",
-            password: "",
-            errorUsername: "",
-            errorEmail: "",
-            errorPassword: ""
-        };
-    }
+function SignUpForm(props) {
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorUsername, setErrorUsername] = useState("");
+    const [errorEmail, setErrorEmail] = useState("");
+    const [errorPassword, setErrorPassword] = useState("");
 
-    submit(event) {
+    function submit(event) {
         event.preventDefault();
 
         let usuarioACrear = {
-            username: this.state.username,
-            email: this.state.email,
-            password: this.state.password,
+            username: username,
+            email: email,
+            password: password,
             createdAt: Date.now(),
         };
         if (usuarioACrear.username.length < 3 || usuarioACrear.username.length > 7) {
-            this.setState({ errorUsername: "Username must be between 3 and 7 characters" });
+            setErrorUsername ("Username must be between 3 and 7 characters");
             return;
         } else {
-            this.setState({
-                errorUsername: ""
-            })
+            setErrorUsername ("");
+            
         }
         if (!usuarioACrear.email.includes("@")) {
-            this.setState({ errorEmail: "Invalid email format" });
+            setErrorEmail ("Invalid email format");
             return;
         } else {
-            this.setState({
-                errorEmail: ""
-            })
+            setErrorEmail ("");
         }
         if (usuarioACrear.password.length < 6) {
-            this.setState({ errorPassword: "Password must be at least 6 characters" });
+            setErrorPassword("Password must be at least 6 characters");
             return;
         } else {
-            this.setState({
-                errorPassword: ""
-            })
+                setErrorPassword ("");
+            
         }
         let usersStorage = localStorage.getItem("users");
         if (usersStorage !== null) {
             let usersParseado = JSON.parse(usersStorage);
-            let usersFiltrado = usersParseado.filter((elemento => elemento.email === this.state.email));
+            let usersFiltrado = usersParseado.filter((elemento => elemento.email === email));
             if (usersFiltrado.length > 0) {
-                this.setState({ errorEmail: "An account with this email already exists" });
+                setErrorEmail ("An account with this email already exists");
                 return;
             } else {
                 usersParseado.push(usuarioACrear);
@@ -63,25 +55,23 @@ class SignUpForm extends Component {
             let usersEnJson = JSON.stringify(usersInicial);
             localStorage.setItem("users", usersEnJson);
         }
-        this.props.history.push("/LogIn");
+        props.history.push("/LogIn");
     }
-
-    render() {
         return (
-            <form onSubmit={(e) => this.submit(e)}>
+            <form onSubmit={(e) => submit(e)}>
                 <div className="form-group">
-                    <input type="text" placeholder="Username" className="form-control" value={this.state.username} onChange={(e) => this.setState({ username: e.target.value })} />
-                    {this.state.errorUsername && (<p className="text-danger">{this.state.errorUsername}</p>)}
+                    <input type="text" placeholder="Username" className="form-control" value={username} onChange={(e) => setUsername (e.target.value)} />
+                    {errorUsername && (<p className="text-danger">{errorUsername}</p>)}
                 </div>
 
                 <div className="form-group">
-                    <input type="text" placeholder="Email" className="form-control" value={this.state.email} onChange={(e) => this.setState({ email: e.target.value })} />
-                    {this.state.errorEmail && (<p className="text-danger">{this.state.errorEmail}</p>)}
+                    <input type="text" placeholder="Email" className="form-control" value={email} onChange={(e) => setEmail (e.target.value)} />
+                    {errorEmail && (<p className="text-danger">{errorEmail}</p>)}
                 </div>
 
                 <div className="form-group">
-                    <input type="password" placeholder="Password" className="form-control" value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} />
-                    {this.state.errorPassword && (<p className="text-danger">{this.state.errorPassword}</p>)}
+                    <input type="password" placeholder="Password" className="form-control" value={password} onChange={(e) => setPassword (e.target.value)} />
+                    {errorPassword && (<p className="text-danger">{errorPassword}</p>)}
                 </div>
 
                 <button type="submit" className="btn btn-primary btn-block">
@@ -91,6 +81,5 @@ class SignUpForm extends Component {
             </form>
         );
     }
-}
 
 export default SignUpForm;

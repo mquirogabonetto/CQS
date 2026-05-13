@@ -1,25 +1,22 @@
-import React, { Component } from 'react';
+import React from "react";
 import { withRouter } from 'react-router-dom';
 import "./LogOutButton.css";
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
-class LogOutButton extends Component {
-
-    logout() {
+function LogOutButton(props) {
+    function logout() {
         cookies.remove("auth-user", { path: "/" });
-        this.props.history.push("/LogIn");
+        props.history.push("/LogIn");
     }
+    return (
+        <div>
+            <button className='button-logout' onClick={() => logout()}>Log Out</button>
+        </div>
 
-    render() {
-        return (
-            <div>
-                <button className='button-logout' onClick={() => this.logout()}>Log Out</button>
-            </div>
-
-        );
-    }
+    );
 }
+
 
 export default withRouter(LogOutButton);

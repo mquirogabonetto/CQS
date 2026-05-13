@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
+import {useState, useEffect} from "react";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import MovieCard from "../../Components/MovieCard/MovieCard";
@@ -9,32 +10,28 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
-class SearchResults extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            results: [],
-            loading: true,
-        };
-    }
+function SearchResults(props) {
+    const [results, setResults] = useState([]);
+    const [loading, setLoading] = useState(true);
+       
 
-    componentDidMount() {
-        let tipo = this.props.match.params.tipo;
-        let busqueda = this.props.match.params.busqueda;
+    useEffect (() => {
+        let tipo = props.match.params.tipo;
+        let busqueda = props.match.params.busqueda;
 
         fetch("https://api.themoviedb.org/3/search/" + tipo + "?api_key=b604e547cd3fb7ac5cc35be72e2e0516&query=" + busqueda)
             .then((response) => response.json())
             .then((data) => {
-                this.setState({ results: data.results || [], loading: false });
+                setResults (data.results || []) 
+                setLoading (false) 
             })
             .catch((error) => {
                 console.log(error);
-                this.setState({ loading: false });
+                setLoading (false);
             });
-    }
+    }, []);
 
-    render() {
-        let tipo = this.props.match.params.tipo;
+        let tipo = props.match.params.tipo;
         let logueado = cookies.get("auth-user");
         return (
             <div>
@@ -43,20 +40,20 @@ class SearchResults extends Component {
                 </video>
                 <Header />
                 <div className="container">
-                    {!this.state.loading && this.state.results.length > 0 && (
+                    {!loading && results.length > 0 && (
                         <h2 className="search-results-title">
-                            {tipo === "movie" ? "Movies" : "Shows"}: {this.props.match.params.busqueda}
+                            {tipo === "movie" ? "Movies" : "Shows"}: {props.match.params.busqueda}
                         </h2>
                     )}
-                    {this.state.loading ? (
+                    {loading ? (
                         <Loader />
-                    ) : this.state.results.length === 0 ? (
+                    ) : results.length === 0 ? (
                         <p className="no-results">
-                            No results for: "{this.props.match.params.busqueda}"
+                            No results for: "{props.match.params.busqueda}"
                         </p>
                     ) : (
                         <section className="cardContainer">
-                            {this.state.results.map((item) => (
+                            {results.map((item) => (
                                 <MovieCard
                                     key={item.id}
                                     id={item.id}
@@ -73,7 +70,6 @@ class SearchResults extends Component {
                 <Footer />
             </div>
         );
-    }
 }
 
 export default SearchResults;
